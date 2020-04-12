@@ -10,18 +10,48 @@ def parse_cli():
     pass
 
 
-class Trainer:
-    '''Trainer objects own, create and edit Trainings. Also, they administrate team memberships and scoring.''' 
+class Team:
+    pass
+
+
+class Teammember:
+    '''Parent member object'''
     def __init__(self, name, team=None):
         self.name = name
         self.uuid = uuid.uuid1()
         self.team = team
-        self.plans = set()
+
+    def show(self):
+        print('UUID: ', self.uuid, '\nName: ', self.name, '\nTeam: ', self.team)
+
+
+class Player(Teammember):
+    '''Player can execute plan and look at stats.'''
+    def __init__(self, name, team=None):
+        Teammember.__init__(self, name, team)
+
+    def show_plans(self):
+        pass
+
+    def start_plan(plan):
+        pass
+
+    def claim_plan(plan, datetime):
+        pass
+
+
+class Trainer(Teammember):
+    '''Trainer objects own, create and edit Trainings. Also, they administrate team memberships and scoring.''' 
+    def __init__(self, name, team=None):
+        Teammember.__init__(self, name, team)
+        self.plans = {}
+        print('Trainer role initialized.')
 
 
     def create_plan(self, name):
         '''Create a new training plan.'''
         pass
+
 
     def load_plan(self, path, name=None):
         '''Load an existing training plan from csv. This is a wrapper for Plan.from_csv .'''
@@ -47,9 +77,6 @@ class Trainer:
         for plan in list(self.plans):
             print(plan.uui, plan.name, plan.exercises)
 
-    def show(self):
-        print('UUID: ', self.uuid, '\nName: ', self.name, '\nTeam: ', self.team)
-
 
 class Plan:
     '''A training plan. Contains a table of exercises.'''
@@ -74,14 +101,44 @@ class Plan:
 
 
 
-class Player:
-    pass
+class Account:
+    '''Account for an identity. Has credentials and roles.'''
+
+    def __init__(self, name, email=None):
+        self.name = name
+        self.uuid = uuid.uuid1()
+        self.roles = set()
+        self.email = email
+        print('New Account created.')
 
 
-class Team:
-    pass
+    def add_player_role(self, name=None):
+        if name is None:
+            name = self.name
+
+        player = Player(name)
+        self.roles.add(player)
+
+
+    def add_trainer_role(self, name=None):
+        if name is None:
+            name = self.name
+
+        trainer = Trainer(name)
+        self.roles.add(trainer)
+
+    def show(self):
+        print('UUID: {}\nUsername: {}\nEmail: {}\nRoles: {}'.format(self.uuid, self.name, self.email, self.roles))
+
 
 if __name__=='__main__':
+
+    lu_acc = Account(name='lu')
+    lu_acc.show()
+    print()
+    lu_acc.add_trainer_role()
+    lu_acc.show()
+    exit()
 
     lu = Trainer('lu')
     lu.show()

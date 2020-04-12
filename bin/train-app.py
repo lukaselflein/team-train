@@ -9,26 +9,65 @@ def parse_cli():
     '''Parse command-line arguments'''
     pass
 
+class Account:
+    '''Account for an identity. Has credentials and roles.'''
+    __name__ = 'Account'
+
+    def __init__(self, name, email=None):
+        self.name = name
+        self.uuid = uuid.uuid1()
+        self.roles = set()
+        self.email = email
+        print('New Account created.')
+
+
+    def add_player_role(self, name=None):
+        if name is None:
+            name = self.name
+
+        player_role = Player(name)
+        self.roles.add(player_role)
+        return player_role
+
+
+    def add_trainer_role(self, name=None):
+        if name is None:
+            name = self.name
+
+        trainer_role = Trainer(name)
+        self.roles.add(trainer_role)
+        return trainer_role
+
+
+    def show_roles(self):
+        for role in self.roles:
+            print(role)
+
+    def __str__(self):
+        return 'UUID: {}\nUsername: {}\nEmail: {}\nRoles: {}'.format(self.uuid, self.name, self.email, self.roles)
+
 
 class Team:
     pass
 
 
-class Teammember:
-    '''Parent member object'''
+class Role:
+    '''Parent object for all roles that teammembers can have'''
+
     def __init__(self, name, team=None):
         self.name = name
         self.uuid = uuid.uuid1()
         self.team = team
 
-    def show(self):
-        print('UUID: ', self.uuid, '\nName: ', self.name, '\nTeam: ', self.team)
+    def __str__(self):
+        return 'UUID: {}\nRole: {}\nName: {}\nTeam: {}'.format(self.uuid, self.__class__.__name__, self.name, self.team)
 
 
-class Player(Teammember):
+class Player(Role):
     '''Player can execute plan and look at stats.'''
     def __init__(self, name, team=None):
-        Teammember.__init__(self, name, team)
+        super().__init__(name, team)
+        print('Player role initialized.')
 
     def show_plans(self):
         pass
@@ -40,11 +79,11 @@ class Player(Teammember):
         pass
 
 
-class Trainer(Teammember):
+class Trainer(Role):
     '''Trainer objects own, create and edit Trainings. Also, they administrate team memberships and scoring.''' 
     def __init__(self, name, team=None):
-        Teammember.__init__(self, name, team)
-        self.plans = {}
+        super().__init__(name, team)
+        self.plans = set()
         print('Trainer role initialized.')
 
 
@@ -64,7 +103,7 @@ class Trainer(Teammember):
         plan.from_csv(path)
         self.plans.add(plan)
 
-        return name, exercise_df
+        return plan
 
 
     def edit_plan(self, training_id):
@@ -72,10 +111,11 @@ class Trainer(Teammember):
         pass
 
 
-    def show_plans(self, training_id):
-        '''A wrapper for Plan.show'''
+    def show_plans(self):
+        '''Print all plans'''
+        print(list(self.plans))
         for plan in list(self.plans):
-            print(plan.uui, plan.name, plan.exercises)
+            print(plan)
 
 
 class Plan:
@@ -96,57 +136,37 @@ class Plan:
     def from_csv(self, path):
         self.exercises = pd.read_csv(path)
 
-    def show(self):
-        print(self.exercises)
+    def __str__(self):
+        return str(self.exercises)
 
 
-
-class Account:
-    '''Account for an identity. Has credentials and roles.'''
-
-    def __init__(self, name, email=None):
-        self.name = name
-        self.uuid = uuid.uuid1()
-        self.roles = set()
-        self.email = email
-        print('New Account created.')
-
-
-    def add_player_role(self, name=None):
-        if name is None:
-            name = self.name
-
-        player = Player(name)
-        self.roles.add(player)
-
-
-    def add_trainer_role(self, name=None):
-        if name is None:
-            name = self.name
-
-        trainer = Trainer(name)
-        self.roles.add(trainer)
+class Workout:
+    '''A real-time workout session.
+    A player exectues a plan, which contains target times.
+    The session gives the player controls to pause the session, which will be recorded in the workout-log.'''
+    
+    def __init__(self, plan):
+        self.plan = plan
 
     def show(self):
-        print('UUID: {}\nUsername: {}\nEmail: {}\nRoles: {}'.format(self.uuid, self.name, self.email, self.roles))
+        print(self.plan)
+
 
 
 if __name__=='__main__':
 
     lu_acc = Account(name='lu')
-    lu_acc.show()
+    print(lu_acc)
     print()
-    lu_acc.add_trainer_role()
-    lu_acc.show()
+    lu_player = lu_acc.add_player_role()
+    lu_trainer = lu_acc.add_trainer_role()
+    lu_trainer.show_plans()
+    r_path = '../data/example_running.csv'
+    lu_trainer.load_plan(r_path, name = 'testname')
+    s_path = '../data/example_strength.csv'
+    lu_trainer.load_plan(s_path, name = 'testname')
+    lu_trainer.show_plans()
     exit()
-
-    lu = Trainer('lu')
-    lu.show()
-
-
-    plan = Plan('test')
-    plan.from_csv('../data/example_running.csv')
-    plan.show()
 
 
     if False:

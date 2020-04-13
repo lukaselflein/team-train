@@ -30,6 +30,14 @@ class Account:
         return player_role
 
 
+    def rm_player_role(self, name=None):
+        for role in self.roles:
+            if role.__class__.__name__ == 'Player':
+                print('Player role found. Removal failed - not implemented.')
+            else:
+                print('No op')
+
+
     def add_trainer_role(self, name=None):
         if name is None:
             name = self.name
@@ -48,11 +56,42 @@ class Account:
 
 
 class Team:
-    pass
+    '''A team is made up of players, trainers and a manager.
+    Also, the team has a team-score, and team-plans.'''
+    __name__ = 'Team'
+
+    def __init__(self, name):
+        self.name = name
+        self.uuid = uuid.uuid1()
+        self.manager = None # TODO
+        self.accounts = set()
+        self.score = 0
+#        self.score_history = pd.DataFrame(columns=['time', 'score', 'accounts']) # TODO: timeseries is better
+
+    def add_account(self, account):
+        self.account.add(account)
+
+
+    def update_score(self):
+        '''Sum the scores from the team's players to generate the current team-score'''
+        new_score = 0
+        for account in self.accounts:
+            for role in account.roles:
+                if role.__class__.__name__ == 'Player':
+                    player = role
+                    new_score += player.score
+                    break
+
+        self.score = new_score
+        # n_accounts = len(self.accounts)
+        # history_entry = [time.time(), new_score, n_accounts]
+        # self.score_history.append(history_entry)
+                    
+
 
 
 class Role:
-    '''Parent object for all roles that teammembers can have'''
+    '''Generic parent object for all roles that teammembers can have.'''
 
     def __init__(self, name, team=None):
         self.name = name
@@ -67,20 +106,59 @@ class Player(Role):
     '''Player can execute plan and look at stats.'''
     def __init__(self, name, team=None):
         super().__init__(name, team)
+        self.plan_book = set()
+        self.training_history = pd.DataFrame(columns=['time', 'plan_uiid', 'claimed'])
+        self.score = 0
         print('Player role initialized.')
 
     def show_plans(self):
+        for plan in plan_book:
+            print(plan)
+
+
+    def show_training_history(self):
+        print(self.training_history)
+
+
+    def claim_training(self, plan):
+        '''Player states that they have completed the training.
+        Track this in their history, and assign points.'''
+        history_entry = [time.time(), plan.uuid, True]
+        print(history_entry)
+
+    def __str__(self):
+        string = 'UUID: {}\nRole: {}\nName: {}\nTeam: {}'.format(self.uuid, self.__class__.__name__, self.name, self.team)
+        string += '\nScore: {}'.format(self.score)
+        return string
+
+class Manager(Role):
+    '''Managers invite & kick players to/from teams. Also, they assign roles.'''
+    def __init__(self, name, team):
+        super().__init__(name, team)
+        print('Manager role initialized.')
+
+
+    def create_team(self):
         pass
 
-    def start_plan(plan):
+
+    def show_team(self):
         pass
 
-    def claim_plan(plan, datetime):
+
+    def invite_player(self, player):
         pass
+
+
+    def kick_player(self, player):
+        pass
+
+
+
 
 
 class Trainer(Role):
-    '''Trainer objects own, create and edit Trainings. Also, they administrate team memberships and scoring.''' 
+    '''Trainer objects own, create and edit Trainings.''' 
     def __init__(self, name, team=None):
         super().__init__(name, team)
         self.plans = set()
@@ -118,6 +196,12 @@ class Trainer(Role):
             print(plan)
 
 
+    def update_points(self, plan, score):
+        '''Re-assign the number of points a training gives to a player.'''
+        plan.points = points
+
+
+
 class Plan:
     '''A training plan. Contains a table of exercises.'''
 
@@ -126,8 +210,10 @@ class Plan:
         self.name = name
         # unique identifier to avoid collisions between same name
         self.uuid = uuid.uuid1()
-        # exercies are stored in a pandas data frame
-        self.exercises = pd.DataFrame() 
+        # exercises are stored in a pandas data frame
+        self.exercises = pd.DataFrame()
+        # A training gives points to a player for completing it
+        self.points = 100
 
     def to_csv(self, data_folder):
         full_path = os.path.join(data_folder, name)
@@ -147,39 +233,24 @@ class Workout:
     
     def __init__(self, plan):
         self.plan = plan
+        self.time = None
 
-    def show(self):
+    def show_plan(self):
         print(self.plan)
-
 
 
 if __name__=='__main__':
 
     lu_acc = Account(name='lu')
     print(lu_acc)
-    print()
-    lu_player = lu_acc.add_player_role()
+
     lu_trainer = lu_acc.add_trainer_role()
-    lu_trainer.show_plans()
     r_path = '../data/example_running.csv'
     lu_trainer.load_plan(r_path, name = 'testname')
     s_path = '../data/example_strength.csv'
     lu_trainer.load_plan(s_path, name = 'testname')
-    lu_trainer.show_plans()
-    exit()
 
-
-    if False:
-        cli_args = parse_cli()
-        # role = cli_args.role
-        role = 'player'
-
-        if role == 'player':
-            print(role)
-
-        elif role == 'trainer':
-            print(role)
-
-        else:
-            print("Role '%' invalid.".format(role))
-            exit()
+    lu_player = lu_acc.add_player_role()
+    lu_player.score += 100
+    print()
+    print(lu_player)

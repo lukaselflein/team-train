@@ -3,6 +3,7 @@
 import os
 import numpy as np
 import pandas as pd
+import time
 import uuid
 
 def parse_cli():
@@ -106,10 +107,11 @@ class Player(Role):
     '''Player can execute plan and look at stats.'''
     def __init__(self, name, team=None):
         super().__init__(name, team)
-        self.plan_book = set()
+        self.plans = set()
         self.training_history = pd.DataFrame(columns=['time', 'plan_uiid', 'claimed'])
         self.score = 0
         print('Player role initialized.')
+
 
     def show_plans(self):
         for plan in plan_book:
@@ -124,12 +126,15 @@ class Player(Role):
         '''Player states that they have completed the training.
         Track this in their history, and assign points.'''
         history_entry = [time.time(), plan.uuid, True]
+        self.score += plan.points
         print(history_entry)
+
 
     def __str__(self):
         string = 'UUID: {}\nRole: {}\nName: {}\nTeam: {}'.format(self.uuid, self.__class__.__name__, self.name, self.team)
         string += '\nScore: {}'.format(self.score)
         return string
+
 
 class Manager(Role):
     '''Managers invite & kick players to/from teams. Also, they assign roles.'''
@@ -163,6 +168,11 @@ class Trainer(Role):
         super().__init__(name, team)
         self.plans = set()
         print('Trainer role initialized.')
+
+
+    def assign_plan(self, plan, player):
+        '''Assign a training to a player.'''
+        player.plans.add(plan)
 
 
     def create_plan(self, name):
@@ -245,12 +255,18 @@ if __name__=='__main__':
     print(lu_acc)
 
     lu_trainer = lu_acc.add_trainer_role()
+    lu_player = lu_acc.add_player_role()
     r_path = '../data/example_running.csv'
     lu_trainer.load_plan(r_path, name = 'testname')
     s_path = '../data/example_strength.csv'
     lu_trainer.load_plan(s_path, name = 'testname')
 
-    lu_player = lu_acc.add_player_role()
-    lu_player.score += 100
+    plan = lu_trainer.plans.pop()
+    lu_trainer.assign_plan(player=lu_player, plan=plan)
+
+    
+    print(lu_player)
+    print(lu_player.plans)
+    lu_player.claim_training(plan)
     print()
     print(lu_player)

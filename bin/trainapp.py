@@ -1,14 +1,14 @@
 """Administrate users, trainings, scores; run trainings."""
 
 import os
-import numpy as np
-import pandas as pd
 import time
 import uuid
+import pandas as pd
 
 def parse_cli():
     '''Parse command-line arguments'''
-    pass
+    return
+
 
 class Account:
     '''Account for an identity. Has credentials and roles.'''
@@ -19,27 +19,31 @@ class Account:
         self.uuid = uuid.uuid1()
         self.roles = set()
         self.email = email
+        self.team = None
         print('New Account created.')
 
 
-    def add_player_role(self, name=None):
-        if name is None:
-            name = self.name
+    def create_team(self, name):
+        '''Create a new team.'''
+        self.add_manager_role()
+        self.team = Team(name)
 
-        player_role = Player(name)
+
+    def add_manager_role(self):
+        '''Make this account a team-manager.'''
+        manager_role = Manager(self.name)
+        self.roles.add(manager_role)
+
+
+    def add_player_role(self):
+        '''Make this account able to execute training plans.'''
+        player_role = Player(self.name)
         self.roles.add(player_role)
         return player_role
 
 
-    def rm_player_role(self, name=None):
-        for role in self.roles:
-            if role.__class__.__name__ == 'Player':
-                print('Player role found. Removal failed - not implemented.')
-            else:
-                print('No op')
-
-
     def add_trainer_role(self, name=None):
+        '''Make this account able to create training plans.'''
         if name is None:
             name = self.name
 
@@ -48,12 +52,25 @@ class Account:
         return trainer_role
 
 
+    def rm_role(self, role='Player'):
+        '''Remove a role.'''
+        for role in self.roles:
+            if role.__class__.__name__ == role:
+                print('{} role found. Removal failed - not implemented.'.format(role))
+            else:
+                print('No op')
+
+
     def show_roles(self):
+        '''List all roles.'''
         for role in self.roles:
             print(role)
 
+
     def __str__(self):
-        return 'UUID: {}\nUsername: {}\nEmail: {}\nRoles: {}'.format(self.uuid, self.name, self.email, self.roles)
+        string = 'UUID: {}\nUsername: {}'.format(self.uuid, self.name)
+        string += '\nEmail: {}\nRoles: {}'.format(self.email, self.roles)
+        return string
 
 
 class Team:
@@ -64,12 +81,12 @@ class Team:
     def __init__(self, name):
         self.name = name
         self.uuid = uuid.uuid1()
-        self.manager = None # TODO
         self.accounts = set()
         self.score = 0
-#        self.score_history = pd.DataFrame(columns=['time', 'score', 'accounts']) # TODO: timeseries is better
+
 
     def add_account(self, account):
+        '''Assign an account to the team.'''
         self.account.add(account)
 
 
@@ -87,8 +104,6 @@ class Team:
         # n_accounts = len(self.accounts)
         # history_entry = [time.time(), new_score, n_accounts]
         # self.score_history.append(history_entry)
-                    
-
 
 
 class Role:
@@ -99,8 +114,16 @@ class Role:
         self.uuid = uuid.uuid1()
         self.team = team
 
+
     def __str__(self):
-        return 'UUID: {}\nRole: {}\nName: {}\nTeam: {}'.format(self.uuid, self.__class__.__name__, self.name, self.team)
+        string = 'UUID: {}\nRole: {}'.format(self.uuid, self.__class__.__name__)
+        string += '\nName: {}\nTeam: {}'.format(self.name, self.team)
+        return string
+
+
+    def delete(self):
+        '''Delete this role.'''
+        return 'deleted'
 
 
 class Player(Role):
@@ -114,11 +137,14 @@ class Player(Role):
 
 
     def show_plans(self):
-        for plan in plan_book:
-            print(plan)
+        '''Show all plans'''
+        print('Plan,\tPoints')
+        for plan in self.plans:
+            print('{},\t{}'.format(plan.name, plan.points))
 
 
     def show_training_history(self):
+        '''Show trainings done in the past.'''
         print(self.training_history)
 
 
@@ -131,39 +157,47 @@ class Player(Role):
 
 
     def __str__(self):
-        string = 'UUID: {}\nRole: {}\nName: {}\nTeam: {}'.format(self.uuid, self.__class__.__name__, self.name, self.team)
+        string = 'UUID: {}\nRole: {}'.format(self.uuid, self.__class__.__name__)
+        string += '\nName: {}\nTeam: {}'.format(self.name, self.team)
         string += '\nScore: {}'.format(self.score)
         return string
 
 
 class Manager(Role):
     '''Managers invite & kick players to/from teams. Also, they assign roles.'''
-    def __init__(self, name, team):
-        super().__init__(name, team)
+    def __init__(self, name):
+        super().__init__(name)
         print('Manager role initialized.')
+        self.team = None
 
 
-    def create_team(self):
-        pass
+    def create_team(self, name):
+        '''Create a new team.'''
+        self.team = Team(name)
+
+
+    def leave_team(self):
+        '''Leave a created team.'''
+        self.team = None
 
 
     def show_team(self):
-        pass
+        '''Show current team.'''
+        return
 
 
-    def invite_player(self, player):
-        pass
+    def invite_account(self, player):
+        '''Invite a human/account to the current team.'''
+        return player
 
 
-    def kick_player(self, player):
-        pass
-
-
-
+    def remove_account(self, player):
+        '''Kick an account from the current team.'''
+        return player
 
 
 class Trainer(Role):
-    '''Trainer objects own, create and edit Trainings.''' 
+    '''Trainer objects own, create and edit Trainings.'''
     def __init__(self, name, team=None):
         super().__init__(name, team)
         self.plans = set()
@@ -177,14 +211,14 @@ class Trainer(Role):
 
     def create_plan(self, name):
         '''Create a new training plan.'''
-        pass
+        return name
 
 
     def load_plan(self, path, name=None):
         '''Load an existing training plan from csv. This is a wrapper for Plan.from_csv .'''
         if name is None:
-            folder_path, file_name = os.path.split(path)
-            name = os.path.splitext(file_name) [0]
+            file_name = os.path.split(path)[1]
+            name = os.path.splitext(file_name)[0]
 
         # Create a new plan instance, fill with csv
         plan = Plan(name)
@@ -196,8 +230,7 @@ class Trainer(Role):
 
     def edit_plan(self, training_id):
         '''Change the content or scoring of a training'''
-        pass
-
+        return training_id
 
     def show_plans(self):
         '''Print all plans'''
@@ -206,7 +239,7 @@ class Trainer(Role):
             print(plan)
 
 
-    def update_points(self, plan, score):
+    def update_points(self, plan, points):
         '''Re-assign the number of points a training gives to a player.'''
         plan.points = points
 
@@ -225,48 +258,22 @@ class Plan:
         # A training gives points to a player for completing it
         self.points = 100
 
-    def to_csv(self, data_folder):
+    def to_csv(self, data_folder, name):
+        '''Save plan as csv file.'''
         full_path = os.path.join(data_folder, name)
         self.exercises.to_csv(full_path)
 
     def from_csv(self, path):
+        '''Load plan from csv file.'''
         self.exercises = pd.read_csv(path)
 
     def __str__(self):
-        return str(self.exercises)
+        string = str(self.__class__.__name__) + " "
+        string += str(self.name) + ", " + str(self.points) + "\n"
+        string += str(self.exercises)
+        return string
 
 
-class Workout:
-    '''A real-time workout session.
-    A player exectues a plan, which contains target times.
-    The session gives the player controls to pause the session, which will be recorded in the workout-log.'''
-    
-    def __init__(self, plan):
-        self.plan = plan
-        self.time = None
+if __name__ == '__main__':
 
-    def show_plan(self):
-        print(self.plan)
-
-
-if __name__=='__main__':
-
-    lu_acc = Account(name='lu')
-    print(lu_acc)
-
-    lu_trainer = lu_acc.add_trainer_role()
-    lu_player = lu_acc.add_player_role()
-    r_path = '../data/example_running.csv'
-    lu_trainer.load_plan(r_path, name = 'testname')
-    s_path = '../data/example_strength.csv'
-    lu_trainer.load_plan(s_path, name = 'testname')
-
-    plan = lu_trainer.plans.pop()
-    lu_trainer.assign_plan(player=lu_player, plan=plan)
-
-    
-    print(lu_player)
-    print(lu_player.plans)
-    lu_player.claim_training(plan)
-    print()
-    print(lu_player)
+    pass

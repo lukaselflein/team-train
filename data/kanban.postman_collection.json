@@ -1,0 +1,35 @@
+{
+	"info": {
+		"_postman_id": "c79eda05-4cf9-4d4f-b677-a78b229e4fed",
+		"name": "kanban",
+		"description": "Team Train Sports App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "get_all_User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						},
+						"description": "returns all user-data of all users"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "training",
+			"item": []
+		}
+	]
+}

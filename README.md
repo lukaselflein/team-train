@@ -12,7 +12,7 @@ A webpage to coordinate and gamify training for sports teams.
 
 # How to use
 
-- start the main program: `python3 train-app.py`
+- start the main program: `python3 trainapp.py`
 - make a new trainer account
 - create a training with your player account
 - make a new user account

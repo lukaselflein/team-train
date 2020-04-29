@@ -15,8 +15,9 @@ A webpage to coordinate and gamify training for sports teams.
 Post feature-requests and bug-reports as issues, or make a pull request.
 
 # How to start
-
+``` bash
 mongod --dbpath ./backend/
 python ./backend/env/app.py
 cd ./frontend
 npm run serve
+```

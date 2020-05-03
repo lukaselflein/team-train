@@ -1,23 +1,31 @@
-# team-train
+# Developing a Single Page App with Flask and Vue.js
 
-A webpage to coordinate and gamify training for sports teams.
+### Want to learn how to build this?
 
-# Features
+Check out the [post](https://testdriven.io/developing-a-single-page-app-with-flask-and-vuejs).
 
-- Create & assign custom trainings for your teammembers
-- Run through trainings as a player
-- Compare your stats to your teammembers
-- Compete with other players for badges and highscore
-- Challenge other teams with conesus-trainings
+## Want to use this project?
 
-# How to contribute
+1. Fork/Clone
 
-Post feature-requests and bug-reports as issues, or make a pull request.
+1. Run the server-side Flask app in one terminal window:
 
-# How to start
-``` bash
-mongod --dbpath ./backend/
-python ./backend/env/app.py
-cd ./frontend
-npm run serve
-```
+    ```sh
+    $ cd server
+    $ python3.7 -m venv env
+    $ source env/bin/activate
+    (env)$ pip install -r requirements.txt
+    (env)$ python app.py
+    ```
+
+    Navigate to [http://localhost:5000](http://localhost:5000)
+
+1. Run the client-side Vue app in a different terminal window:
+
+    ```sh
+    $ cd client
+    $ npm install
+    $ npm run serve
+    ```
+
+    Navigate to [http://localhost:8080](http://localhost:8080)

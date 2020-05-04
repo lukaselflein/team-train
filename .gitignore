@@ -133,3 +133,6 @@ dmypy.json
 
 # mongodb data
 ./backend/mongodb-data
+
+# Vi Swap files
+*.swp

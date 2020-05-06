@@ -1,6 +1,7 @@
 # team-train
 
-A webpage to coordinate and gamify training for sports teams.
+This project is meant to help coordination and motivation in sports teams.
+All team members can complete custom-tailored workout plans to claim points, and increase their highscore for bragging rights.
 
 # Features
 
@@ -21,3 +22,8 @@ python ./backend/env/app.py
 cd ./frontend
 npm run serve
 ```
+
+# Contributors
+* Olga - Frontend
+* Lu - Backend
+* Linus - Concepts

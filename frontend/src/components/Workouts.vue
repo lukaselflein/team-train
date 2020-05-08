@@ -14,7 +14,7 @@
             <tr>
               <th scope="col">Workout</th>
               <th scope="col">Points</th>
-              <th scope="col">Trainer</th>
+              <th scope="col">Coach</th>
               <th scope="col">Tap it</th>
               <th></th>
             </tr>
@@ -23,7 +23,7 @@
             <tr v-for="(workout, index) in workouts" :key="index">
               <td>{{ workout.title }}</td>
               <td>{{ workout.points }}</td>
-              <td>{{ workout.trainer }}</td>
+              <td>{{ workout.coach }}</td>
               <td>
                   <button
                           type="button"
@@ -82,13 +82,13 @@
             </b-form-input>
           </b-form-group>
         <b-form-group id="form-points-group"
-                      label="Trainer:"
-                      label-for="form-trainer-input">
-            <b-form-input id="form-trainer-input"
+                      label="Coach:"
+                      label-for="form-coach-input">
+            <b-form-input id="form-coach-input"
                           type="text"
-                          v-model="addWorkoutForm.trainer"
+                          v-model="addWorkoutForm.coach"
                           required
-                          placeholder="Enter Trainer">
+                          placeholder="Enter Coach">
             </b-form-input>
           </b-form-group>
         <b-form-group id="form-done-group">
@@ -127,14 +127,14 @@
                           placeholder="Enter points">
             </b-form-input>
           </b-form-group>
-        <b-form-group id="form-trainer-edit-group"
-                      label="Trainer:"
-                      label-for="form-trainer-edit-input">
-            <b-form-input id="form-trainer-edit-input"
+        <b-form-group id="form-coach-edit-group"
+                      label="Coach:"
+                      label-for="form-coach-edit-input">
+            <b-form-input id="form-coach-edit-input"
                           type="text"
-                          v-model="editForm.trainer"
+                          v-model="editForm.coach"
                           required
-                          placeholder="Enter Trainer">
+                          placeholder="Enter Coach">
             </b-form-input>
           </b-form-group>
         <b-form-group id="form-done-edit-group">
@@ -162,7 +162,7 @@ export default {
       addWorkoutForm: {
         title: '',
         points: '',
-        trainer: '',
+        coach: '',
         done: [],
       },
       message: '',
@@ -171,7 +171,7 @@ export default {
         id: '',
         title: '',
         points: '',
-        trainer: '',
+        coach: '',
         done: [],
       },
     };
@@ -222,7 +222,7 @@ export default {
       const payload = {
         title: this.addWorkoutForm.title,
         points: this.addWorkoutForm.points,
-        trainer: this.addWorkoutForm.trainer,
+        coach: this.addWorkoutForm.coach,
         done, // property shorthand
       };
       this.addWorkout(payload);
@@ -247,7 +247,7 @@ export default {
       const payload = {
         title: this.editForm.title,
         points: this.editForm.points,
-        trainer: this.editForm.trainer,
+        coach: this.editForm.coach,
         done,
       };
       this.updateWorkout(payload, this.editForm.id);

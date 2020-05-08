@@ -4,16 +4,16 @@ class InternalServerError(Exception):
 class SchemaValidationError(Exception):
     pass
 
-class MovieAlreadyExistsError(Exception):
+class WorkoutAlreadyExistsError(Exception):
     pass
 
-class UpdatingMovieError(Exception):
+class UpdatingWorkoutError(Exception):
     pass
 
-class DeletingMovieError(Exception):
+class DeletingWorkoutError(Exception):
     pass
 
-class MovieNotExistsError(Exception):
+class WorkoutNotExistsError(Exception):
     pass
 
 class EmailAlreadyExistsError(Exception):
@@ -31,20 +31,20 @@ errors = {
          "message": "Request is missing required fields",
          "status": 400
      },
-     "MovieAlreadyExistsError": {
-         "message": "Movie with given name already exists",
+     "WorkoutAlreadyExistsError": {
+         "message": "Workout with given name already exists",
          "status": 400
      },
-     "UpdatingMovieError": {
-         "message": "Updating movie added by other is forbidden",
+     "UpdatingWorkoutError": {
+         "message": "Updating workout added by other is forbidden",
          "status": 403
      },
-     "DeletingMovieError": {
-         "message": "Deleting movie added by other is forbidden",
+     "DeletingWorkoutError": {
+         "message": "Deleting workout added by other is forbidden",
          "status": 403
      },
-     "MovieNotExistsError": {
-         "message": "Movie with given id doesn't exists",
+     "WorkoutNotExistsError": {
+         "message": "Workout with given id doesn't exists",
          "status": 400
      },
      "EmailAlreadyExistsError": {

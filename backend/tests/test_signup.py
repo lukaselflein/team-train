@@ -11,8 +11,8 @@ class SignupTest(BaseCase):
     def test_successful_signup(self):
         # Given
         payload = json.dumps({
-            "email": "paurakh011@gmail.com",
-            "password": "mycoolpassword"
+            "email": "unit_test_email@test.com",
+            "password": "unit_test_password"
         })
 
         # When

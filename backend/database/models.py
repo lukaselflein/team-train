@@ -4,8 +4,8 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 
 class Workout(db.Document):
     name = db.StringField(required=True, unique=True)
-    casts = db.ListField(db.StringField(), required=True)
-    genres = db.ListField(db.StringField(), required=True)
+    points = db.IntField(required=True)
+    exercises = db.ListField(db.StringField(), required=True)
     added_by = db.ReferenceField('User')
 
 

@@ -21,14 +21,12 @@ class WorkoutsApi(Resource):
         user_id = get_jwt_identity()
         body = request.get_json()
         user = User.objects.get(id=user_id)
-        print(f"\n\n\n{body}\n\n")
         workout = Workout(**body, added_by=user)
         workout.save()
         user.update(push__workouts=workout)
         user.save()
         id = workout.id
         return {'id': str(id)}, 200
-
     except (FieldDoesNotExist, ValidationError):
         raise SchemaValidationError
     except NotUniqueError:

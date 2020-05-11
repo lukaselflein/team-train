@@ -21,10 +21,21 @@ class TestWorkoutCreation(BaseCase):
         login_token = login_response.json['token']
 
         workout_payload = {
-            "name": "Star Wars: The Rise of Skywalker 2",
-            "casts": ["Daisy Ridley", "Adam Driver"],
-            "genres": ["Fantasy", "Sci-fi"]
-        
+            "name": "Automated Testing Workout",
+            "points": 1234,
+            "exercises": [{
+                                "name": "Pushups",
+                                "quantity": 100
+                           },
+                           {
+                               "name": "Situps",
+                               "quantity": 100
+                           },
+                           {
+                               "name": "Squats",
+                               "quantity": 100
+                           }
+                         ],        
         }
         # When
         response = self.app.post('/api/workouts',

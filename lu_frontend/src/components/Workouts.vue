@@ -181,7 +181,7 @@ export default {
   },
   methods: {
     getWorkouts() {
-      const path = 'http://localhost:5000/workouts';
+      const path = 'http://localhost:5000/api/workouts';
       axios.get(path)
         .then((res) => {
           this.workouts = res.data.workouts;
@@ -192,7 +192,7 @@ export default {
         });
     },
     addWorkout(payload) {
-      const path = 'http://localhost:5000/workouts';
+      const path = 'http://localhost:5000/api/workouts';
       axios.post(path, payload)
         .then(() => {
           this.getWorkouts();

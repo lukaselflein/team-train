@@ -41,7 +41,7 @@ All team members can complete custom-tailored workout plans to claim points, and
 1. Run the client-side Vue app in a different terminal window:
 
     ```sh
-    $ cd client
+    $ cd frontend
     $ npm install
     $ npm run serve
     ```

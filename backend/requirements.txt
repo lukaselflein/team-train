@@ -1,0 +1,9 @@
+# Web-framework: flask
+flask
+flask_restful
+flask_bcrypt
+flask_jwt_extended
+
+# Database: MongoDB
+flask_mongoengine
+mongoengine

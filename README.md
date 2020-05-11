@@ -1,9 +1,8 @@
 # Sports Training in teams
-A Single Page App on Flask and Vue
 
-### Based on a tutorial: 
+This project is meant to help coordination and motivation in sports teams.
+All team members can complete custom-tailored workout plans to claim points, and increase their highscore for bragging rights.
 
-Check out the [post](https://testdriven.io/developing-a-single-page-app-with-flask-and-vuejs).
 
 ## Want to use this project?
 
@@ -37,3 +36,16 @@ Check out the [post](https://testdriven.io/developing-a-single-page-app-with-fla
     ```
 
     Navigate to [http://localhost:8080](http://localhost:8080)
+
+# How to start
+``` bash
+mongod --dbpath ./backend/
+python ./backend/env/app.py
+cd ./frontend
+npm run serve
+```
+
+# Contributors
+* Olga - Frontend
+* Lu - Backend
+* Linus - Concepts

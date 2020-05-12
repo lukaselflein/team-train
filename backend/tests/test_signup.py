@@ -16,7 +16,7 @@ class SignupTest(BaseCase):
         })
 
         # When
-        response = self.app.post('/api/auth/signup', headers={"Content-Type": "application/json"}, data=payload)
+        response = self.app.post('/signup', headers={"Content-Type": "application/json"}, data=payload)
 
         # Then
         self.assertEqual(str, type(response.json['id']))

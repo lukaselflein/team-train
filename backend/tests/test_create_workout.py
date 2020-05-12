@@ -11,11 +11,11 @@ class TestWorkoutCreation(BaseCase):
             "password": "unit_test_password"
         })
 
-        self.app.post('/api/auth/signup', 
+        self.app.post('/signup', 
                       headers={"Content-Type": "application/json"}, 
                       data=payload)
 
-        login_response = self.app.post('/api/auth/login', 
+        login_response = self.app.post('/login', 
                                        headers={"Content-Type": "application/json"}, 
                                        data=payload)
         login_token = login_response.json['token']
@@ -38,7 +38,7 @@ class TestWorkoutCreation(BaseCase):
                          ],        
         }
         # When
-        response = self.app.post('/api/workouts',
+        response = self.app.post('/workouts',
                                  headers={"Content-Type": "application/json", 
                                           "Authorization": f"Bearer {login_token}"},
                                  data=json.dumps(workout_payload))

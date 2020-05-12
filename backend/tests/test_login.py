@@ -15,12 +15,12 @@ class LoginTest(BaseCase):
             "password": "unit_test_password"
         })
 
-        response = self.app.post('/api/auth/signup', 
+        response = self.app.post('/signup', 
                                  headers={"Content-Type": "application/json"}, 
                                  data=payload)
 
         # When
-        response = self.app.post('/api/auth/login', 
+        response = self.app.post('/login', 
                                  headers={"Content-Type": "application/json"}, 
                                  data=payload)
         # Then

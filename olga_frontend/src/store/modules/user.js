@@ -3,48 +3,89 @@ import axios from "axios";
 export default {
   strict: true,
   state: {
-    loadingStatus: "",
-    userList: JSON.parse(localStorage.getItem("USERS"))
-  },
-  mutations: {
-    SET_LOADING_STATUS(state, status) {
-      state.loadingStatus = status;
-    },
-    GET_ALL_USERS(state, users) {
-      //   state.loadingstatustatus = "success";
-      state.userList = users;
-    },
-    ERROR_STATUS(state, status) {
-      state.loadingStatus = status;
-    }
+    status: "",
+    token: JSON.parse(localStorage.getItem("token")) || "",
+    user: localStorage.getItem("userId") || ""
   },
   getters: {
-    userList(state) {
-      return state.userList;
+    AUTH_STATUS: state => state.status,
+    IS_LOGGED_IN: state => !!state.token,
+    LOGGED_USER: state => state.user
+  },
+  mutations: {
+    auth_request(state) {
+      state.status = "loading";
+    },
+    signup_success(state, userId) {
+      state.status = "success";
+      state.user = userId;
+    },
+    auth_success(state, token /*, userId*/) {
+      state.status = "success";
+      state.token = token;
+      // state.user = userId;
+    },
+    logout(state) {
+      state.status = "";
+      state.token = "";
+    },
+    auth_error(state) {
+      state.status = "error";
     }
   },
   actions: {
-    getAllUsers({ commit }) {
-      /* eslint-disable-next-line*/
-      console.log("trying to get");
+    register({ commit }, userdata) {
+      let nm = userdata.name;
+      let pw = userdata.password;
       return new Promise((resolve, reject) => {
-        commit("SET_LOADING_STATUS", "loading");
-        axios
-          .get("http://localhost:5000/")
-          .then(res => {
-            let users = res.data;
-            /* eslint-disable-next-line*/
-            console.log(JSON.stringify(users));
-            commit("GET_ALL_USERS", JSON.stringify(res.data));
-            localStorage.setItem("USERS", JSON.stringify(res.data));
-            /* eslint-disable-next-line*/
-            console.log(localStorage.getItem("USERS"));
-            resolve(res.data);
+        commit("auth_request");
+        axios({
+          url: "http://localhost:5000/signup",
+          data: { email: nm, password: pw },
+          method: "POST"
+        })
+          .then(resp => {
+            const userId = resp.data;
+            /* eslint-disable-next-line */
+            console.log(userId);
+            localStorage.setItem("user", JSON.stringify(userId));
+            commit("signup_success", userId);
+            resolve(resp);
           })
           .catch(err => {
-            commit("ERROR_STATUS", err.data.status);
+            commit("auth_error");
             reject(err);
           });
+      });
+    },
+    login({ commit }, userdata) {
+      let nm = userdata.name;
+      let pw = userdata.password;
+      return new Promise((resolve, reject) => {
+        commit("auth_request");
+        axios({
+          url: "http://localhost:5000/login",
+          data: { email: nm, password: pw },
+          method: "POST"
+        })
+          .then(resp => {
+            const token = resp.data;
+            localStorage.setItem("token", JSON.stringify(token));
+            commit("auth_success", token);
+            resolve(resp);
+          })
+          .catch(err => {
+            commit("auth_error");
+            reject(err);
+          });
+      });
+    },
+    LOGOUT({ commit }) {
+      return new Promise(resolve => {
+        commit("logout");
+        localStorage.removeItem("token");
+        delete axios.defaults.headers.common["Authorization"];
+        resolve();
       });
     }
   }

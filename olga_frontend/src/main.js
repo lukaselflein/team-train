@@ -4,13 +4,20 @@ import router from "./router";
 import store from "./store/index";
 import Axios from "axios";
 
-import Buefy from "buefy";
-import "./../node_modules/buefy/dist/buefy.css";
+import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
 
 Vue.config.productionTip = false;
 
 Vue.prototype.$http = Axios;
-Vue.use(Buefy);
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
+
+const token = localStorage.getItem("token");
+if (token) {
+  Vue.prototype.$http.defaults.headers.common["Authorization"] = token;
+}
 
 new Vue({
   router,

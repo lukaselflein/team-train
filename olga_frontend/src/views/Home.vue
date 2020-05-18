@@ -1,64 +1,31 @@
 <template>
   <div class="home">
-    <div class="test">
-      <table class="user-table">
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Team</th>
-        </tr>
-        <tr v-for="(user, index) in users" :key="index">
-          <td>{{ user.id }}</td>
-          <td>{{ user.name }}</td>
-          <td>{{ user.team }}</td>
-        </tr>
-      </table>
-    </div>
+    <createWorkout class="newWK" />
+    <WorkoutList />
   </div>
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import ModalWorkout from "@/components/layout/modalWorkout";
+import WorkoutList from "@/components/data-overview/workoutList";
 
 export default {
-  data() {
-    return {
-      users: ""
-    };
-  },
-  methods: {
-    getUsers() {
-      const path = "http://localhost:5000/";
-      axios
-        .get(path)
-        .then(res => {
-          this.users = res.data.courses;
-        })
-        .catch(error => {
-          // eslint-disable-next-line
-          console.error(error);
-        });
-    }
-  },
-  created() {
-    this.getUsers();
+  name: "Home",
+  components: {
+    createWorkout: ModalWorkout,
+    WorkoutList
   }
 };
 </script>
 
 <style scoped>
 .home {
-  min-height: 100vh;
-  background-color: lavender;
   text-align: center;
+  padding: 1em;
 }
-.test {
-  padding: 3em;
-}
-
-th,
-td {
-  padding: 0 2em;
-  border: white solid 1px;
+.newWK {
+  margin-top: 3.5em;
+  margin-bottom: 2em;
 }
 </style>

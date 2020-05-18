@@ -1,27 +1,32 @@
 <template>
-    <section>
-        <b-field>
-            <b-input type="name"
-                placeholder="username">
-            </b-input>
-        </b-field>
-
-        <b-field>
-            <b-input type="password"
-                placeholder="Password"
-                password-reveal>
-            </b-input>
-        </b-field>
-    </section>
+  <div class="register">
+    <b-card class="card">
+      <b-col class="left">
+        <h1>Registrieren</h1>
+        <AuthForm />
+      </b-col>
+    </b-card>
+  </div>
 </template>
 
-
 <script>
-export default {
+import AuthForm from "@/components/auth/userSignupForm";
 
-}
+export default {
+  name: "Signup",
+  components: {
+    AuthForm
+  }
+};
 </script>
 
-<style>
-
+<style scoped>
+.register {
+  padding: 1em;
+  margin: auto;
+  margin-top: 4em;
+}
+.card {
+  background-color: gainsboro;
+}
 </style>

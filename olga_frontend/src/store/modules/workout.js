@@ -1,9 +1,117 @@
-//import axios from "axios";
+import axios from "axios";
 
 export default {
-    strict: true,
-    state: {},
-    mutations: {},
-    actions: {},
-    modules: {}
-}
+  strict: true,
+  state: {
+    status: "",
+    workoutList: JSON.parse(localStorage.getItem("allWorkouts")),
+    workout: JSON.parse(localStorage.getItem("oneWorkout"))
+  },
+  getters: {
+    ALL_WORKOUTS: state => state.workoutList,
+    ONE_WORKOUT: state => state.workout
+  },
+  mutations: {
+    workout_request(state) {
+      state.status = "loading";
+    },
+    workout_getAll_success(state, workouts) {
+      state.status = "success";
+      state.workoutList = workouts;
+    },
+    workout_get_success(state, workout) {
+      state.status = "success";
+      state.workout = workout;
+    },
+    workout_create_success(state, workout) {
+      state = "success";
+      state.workoutList.unshift(workout);
+    },
+    workout_remove_success(state, workoutId) {
+      state = "success";
+      state.workoutList = state.workoutList.filter(
+        workout => workout._id !== workoutId
+      );
+    },
+    workout_error(state) {
+      state.status = "error";
+    }
+  },
+  //------------------------------------------ GET PUT DELETE functions
+  actions: {
+    getAllWorkouts({ commit }) {
+      //   let token = localStorage.getItem("token");
+
+      return new Promise((resolve, reject) => {
+        commit("workout_request");
+        axios({
+          url: "http://localhost:5000/workouts",
+          method: "GET"
+        })
+          .then(resp => {
+            let workouts = resp.data;
+            commit("workout_getAll_success", resp.data);
+            localStorage.setItem("allWorkouts", JSON.stringify(workouts));
+            resolve(resp);
+          })
+          .catch(err => {
+            commit("workout_error");
+            //localStorage.removeItem("project");
+            reject(err);
+          });
+      });
+    },
+    getWorkout({ commit }, id) {
+      return new Promise((resolve, reject) => {
+        let token = localStorage.getItem("token").token;
+        /* eslint-disable-next-line*/
+        console.log(token);
+        commit("workout_request");
+
+        axios({
+          url: `http://localhost:5000/workouts/${id}`,
+          method: "GET",
+          headers: { Authorization: "Bearer" + token }
+        })
+          .then(resp => {
+            let workoutItem = resp.data;
+            /* eslint-disable-next-line*/
+            console.log(workoutItem);
+            commit("workout_get_success", workoutItem);
+
+            localStorage.setItem("oneWorkout", JSON.stringify(workoutItem));
+            resolve(resp);
+          })
+          .catch(err => {
+            commit("workout_error");
+            reject(err);
+          });
+      });
+    },
+    createWorkout() {},
+    patchWorkout() {},
+    deleteWorkout({ commit }, workoutId) {
+      return new Promise((resolve, reject) => {
+        let token = JSON.parse(localStorage.getItem("token")).token;
+        commit("workout_request");
+        axios({
+          url: `http://localhost:5000/workouts/${workoutId}`,
+          method: "delete",
+          headers: { Authorization: "Bearer " + token }
+        })
+          .then(resp => {
+            commit("workout_delete", workoutId);
+            resolve(resp);
+          })
+          .catch(err => {
+            if (err.response.status == 403) {
+              alert("You can only delete workouts you created!");
+            }
+            commit("workout_error");
+
+            reject(err);
+          });
+      });
+    }
+  }
+};

@@ -5,8 +5,7 @@ export default {
   state: {
     status: "",
     workoutList: JSON.parse(localStorage.getItem("allWorkouts")),
-    workout: JSON.parse(localStorage.getItem("oneWorkout")),
-    newWorkout: JSON.parse(localStorage.getItem("workoutCreated"))
+    workout: JSON.parse(localStorage.getItem("oneWorkout"))
   },
   getters: {
     ALL_WORKOUTS: state => state.workoutList,
@@ -106,15 +105,19 @@ export default {
             Accept: "application/json",
             "Content-Type": "application/json",
             Authorization: "Bearer " + token
+          },
+          success: function() {
+            /* eslint-disable-next-line*/
+            console.log("SUCCESS");
           }
         })
           .then(resp => {
             let newWorkout = resp.data;
 
-            localStorage.setItem(
-              "workoutCreated",
-              JSON.stringify(resp.data._id.$oid)
-            );
+            // localStorage.setItem(
+            //   "workoutCreated",
+            //   JSON.stringify(resp.data._id)
+            // );
             localStorage.setItem("allWorkouts", JSON.stringify(resp.data));
             commit("workout_create_success", newWorkout);
             resolve(resp);
@@ -142,9 +145,9 @@ export default {
           .catch(err => {
             /* eslint-disable-next-line*/
             console.log(err.response);
-            // if (err.response.status == 403) {
-            //   alert("You can only delete workouts you created!");
-            // }
+            if (err.response.status == 403) {
+              alert("You can only delete workouts you created!");
+            }
             commit("workout_error");
 
             reject(err);

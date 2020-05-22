@@ -37,6 +37,5 @@ export default {
 <style>
 body {
   overflow: auto;
-  min-height: 100vh;
 }
 </style>

@@ -23,9 +23,10 @@ export default {
 .home {
   text-align: center;
   padding: 1em;
+  padding-bottom: 3em;
+  margin-bottom: 3.5em;
 }
 .newWK {
   margin-top: 3.5em;
-  margin-bottom: 2em;
 }
 </style>

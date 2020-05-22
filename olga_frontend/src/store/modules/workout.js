@@ -5,11 +5,13 @@ export default {
   state: {
     status: "",
     workoutList: JSON.parse(localStorage.getItem("allWorkouts")),
-    workout: JSON.parse(localStorage.getItem("oneWorkout"))
+    workout: JSON.parse(localStorage.getItem("oneWorkout")),
+    newWorkout: JSON.parse(localStorage.getItem("workoutCreated"))
   },
   getters: {
     ALL_WORKOUTS: state => state.workoutList,
-    ONE_WORKOUT: state => state.workout
+    ONE_WORKOUT: state => state.workout,
+    NEW_WORKOUT: state => state.newWorkout
   },
   mutations: {
     workout_request(state) {
@@ -88,7 +90,41 @@ export default {
           });
       });
     },
-    createWorkout() {},
+    createWorkout({ commit }, workout) {
+      return new Promise((resolve, reject) => {
+        let token = JSON.parse(localStorage.getItem("token")).token;
+        commit("workout_request");
+        axios({
+          url: "http://localhost:5000/workouts",
+          method: "POST",
+          data: {
+            name: workout.name,
+            points: workout.points,
+            exercises: workout.exercises
+          },
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token
+          }
+        })
+          .then(resp => {
+            let newWorkout = resp.data;
+
+            localStorage.setItem(
+              "workoutCreated",
+              JSON.stringify(resp.data._id.$oid)
+            );
+            localStorage.setItem("allWorkouts", JSON.stringify(resp.data));
+            commit("workout_create_success", newWorkout);
+            resolve(resp);
+          })
+          .catch(err => {
+            commit("workout_error");
+            reject(err);
+          });
+      });
+    },
     patchWorkout() {},
     deleteWorkout({ commit }, workoutId) {
       return new Promise((resolve, reject) => {
@@ -100,13 +136,15 @@ export default {
           headers: { Authorization: "Bearer " + token }
         })
           .then(resp => {
-            commit("workout_delete", workoutId);
+            commit("workout_remove_success", workoutId);
             resolve(resp);
           })
           .catch(err => {
-            if (err.response.status == 403) {
-              alert("You can only delete workouts you created!");
-            }
+            /* eslint-disable-next-line*/
+            console.log(err.response);
+            // if (err.response.status == 403) {
+            //   alert("You can only delete workouts you created!");
+            // }
             commit("workout_error");
 
             reject(err);

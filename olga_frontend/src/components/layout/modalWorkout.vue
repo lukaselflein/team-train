@@ -1,9 +1,9 @@
 <template>
   <div>
     <b-button class="btnNew" v-b-modal.modal-1 variant="warning"
-      >New Workout</b-button
-    >
-    <b-modal id="modal-1" title="Create Workout">
+      >New Workout
+    </b-button>
+    <b-modal hide-footer id="modal-1" ref="my-modal" title="Create Workout">
       <div>
         <b-form @submit="onSubmit" @reset="onReset" v-if="show">
           <b-form-group
@@ -35,101 +35,143 @@
             id="input-group-3"
             label="Exercise: "
             label-for="input-3"
+            class="exRow"
           >
-            <b-row v-for="(row, index) in rows" :key="index">
+            <b-row v-for="(exercise, index) in form.exercises" :key="index">
               <b-col>
                 <b-form-input
                   id="input-3"
-                  v-model="form.exercise.name"
                   required
                   label="name"
+                  v-model="exercise.name"
+                  :name="`form.exercises[${index}][name]`"
                   placeholder="Name"
                 ></b-form-input>
               </b-col>
-              <b-col class="exRow">
+              <b-col>
                 <b-form-input
                   id="input-4"
-                  v-model="form.exercise.quantity"
+                  v-model="exercise.quantity"
+                  :name="`form.exercises[${index}][quantity]`"
                   type="number"
                   min="0.00"
                   required
-                  placeholder="repeat"
+                  placeholder="quantity"
                 ></b-form-input>
               </b-col>
-              <b-col><b-button @click="removeLine"></b-button></b-col>
+              <b-col
+                ><b-icon
+                  class="ico"
+                  icon="trash"
+                  @click="removeExercise"
+                  font-scale="2"
+                ></b-icon
+              ></b-col>
             </b-row>
           </b-form-group>
           <div>
-            <b-button @click="addLine" variant="outline-primary">+</b-button>
+            <b-icon
+              icon="plus"
+              class="ico"
+              font-scale="2"
+              @click="addExercise"
+              variant="outline-primary"
+            ></b-icon>
             <b-row class="lstRow">
               <b-button type="submit" variant="primary">Submit</b-button>
               <b-button type="reset" variant="danger">Reset</b-button>
             </b-row>
           </div>
         </b-form>
-        <b-card class="mt-3" header="Form Data Result">
-          <pre class="m-0">{{ form }}</pre>
-        </b-card>
       </div>
     </b-modal>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "ModalWorkout",
   data() {
     return {
-      value: [],
       form: {
         name: "",
         points: "",
-        exercise: { name: "", quantity: "" },
-        exerciseList: []
+        exercises: [
+          {
+            name: "",
+            quantity: ""
+          }
+        ]
       },
-
-      rows: ["1"],
       show: true
     };
   },
-  mounted() {},
+  computed: {
+    ...mapGetters(["NEW_WORKOUT"])
+  },
   methods: {
-    addLine() {
-      /* eslint-disable-next-line*/
-      console.log("lalala");
-      let ex = this.form.exercise;
-      this.form.exerciseList.push(ex);
-      this.rows.push("1");
+    ...mapActions(["createWorkout"]),
+    // adding a new input row
+    addExercise() {
+      let index = this.form.exercises.length - 1;
+      if (
+        this.form.exercises[index].name != "" &&
+        this.form.exercises[index].quantity != ""
+      ) {
+        this.form.exercises.push({
+          name: "",
+          quantity: ""
+        });
+      } else {
+        alert("Please finish the previous exercise.");
+      }
     },
-    removeLine(index) {
-      /* eslint-disable-next-line*/
-      console.log(index);
-      this.rows.splice(index, 1);
+    // removing input row
+    removeExercise(index) {
+      if (this.form.exercises.length >= 2) {
+        this.form.exercises.splice(index, 1);
+      } else {
+        alert("Please enter at least one exercise.");
+      }
     },
     onSubmit(evt) {
       evt.preventDefault();
-      alert(JSON.stringify(this.form));
+      this.createWorkout(this.form);
+      // this.show = false;
+      this.$refs["my-modal"].hide();
+      this.$router.push("/");
     },
     onReset(evt) {
       evt.preventDefault();
-      // Reset our form values
+      // Reset form values
       this.form.name = "";
       this.form.points = "";
-      this.form.exercise = { name: "", quantity: "" };
-      this.form.rows = 1;
-      // Trick to reset/clear native browser form validation state
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
-      });
+      this.form.exercises = [{ name: "", quantity: "" }];
     }
   }
 };
 </script>
 
 <style scoped>
+.ico {
+  border: grey solid 1px;
+  margin: 0.1em;
+  padding: 0.1em;
+  color: grey;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .btnNew {
   min-width: 100%;
+}
+.exRow {
+  min-width: 100%;
+  display: inline;
+}
+.exRow:nth-child(1) {
+  background-color: blue;
 }
 
 .lstRow {
@@ -139,6 +181,6 @@ export default {
   margin-right: 1em;
 }
 .exRow {
-  max-width: 130px;
+  max-width: 100px;
 }
 </style>

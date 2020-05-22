@@ -1,8 +1,15 @@
 <template>
   <div class="appFooter">
-    <footer>
-      <li v-for="author in authors" :key="author.id">{{ author }}</li>
-    </footer>
+    <b-navbar
+      class="foo"
+      fixed="bottom"
+      toggleable="sm"
+      type="light"
+      variant="light"
+      ><b-list-group v-for="author in authors" :key="author.name">
+        {{ author.name }}
+      </b-list-group>
+    </b-navbar>
   </div>
 </template>
 
@@ -11,11 +18,7 @@ export default {
   name: "appFooter",
   data() {
     return {
-      authors: {
-        item1: "Linus",
-        item2: "Lukas",
-        item3: "Olga"
-      }
+      authors: [{ name: "Linus" }, { name: "Lukas" }, { name: "Olga" }]
     };
   }
 };
@@ -23,22 +26,8 @@ export default {
 
 <style>
 .appFooter {
-  position: fixed;
+}
+.foo {
   text-align: center;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 1.5rem;
-  border-top: 1px solid black;
-  font-size: 0.75rem;
-  background-color: white;
-}
-footer {
-  padding: 0.25em;
-}
-footer li {
-  list-style: none;
-  display: inline;
-  padding: 1em;
 }
 </style>

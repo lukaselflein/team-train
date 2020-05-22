@@ -73,6 +73,7 @@ export default {
   name: "WorkoutList",
   data() {
     return {
+      sortDesc: true,
       fields: [
         { key: "name", label: "" },
         { key: "exercises.length", label: "exercises" },
@@ -89,7 +90,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["ALL_WORKOUTS", "LOGGED_USER"])
+    ...mapGetters(["ALL_WORKOUTS"])
   },
   mounted() {
     // Set the initial number of items
@@ -126,8 +127,7 @@ li {
   list-style: none;
 }
 .wkList {
-  margin: 0;
-  padding: 0;
+  margin-bottom: 3em;
   max-height: 100vh;
   text-align: left;
 }

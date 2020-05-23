@@ -1,5 +1,6 @@
 from .db import db
 from flask_bcrypt import generate_password_hash, check_password_hash
+import datetime
 
 class Exercise(db.EmbeddedDocument):
     '''An exercise has a name, and a quantity (number of reps/time).'''
@@ -21,6 +22,8 @@ class Workout(db.Document):
     name = db.StringField(required=True)
     points = db.IntField(required=True)
     added_by = db.ReferenceField('User')
+    date_added = db.DateTimeField(default=datetime.datetime.utcnow)
+    date_modified = db.DateTimeField(default=datetime.datetime.utcnow)
 
 
 class User(db.Document):

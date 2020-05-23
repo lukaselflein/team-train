@@ -3,6 +3,7 @@ flask
 flask_restful
 flask_bcrypt
 flask_jwt_extended
+flask-cors
 
 # Database: MongoDB
 flask_mongoengine

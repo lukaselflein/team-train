@@ -140,7 +140,7 @@ export default {
       this.createWorkout(this.form);
       // this.show = false;
       this.$refs["my-modal"].hide();
-      this.$router.push("/");
+      window.location.reload();
     },
     onReset(evt) {
       evt.preventDefault();

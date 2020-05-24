@@ -1,6 +1,6 @@
 <template>
   <div class="authentification">
-    <b-form class="loginForm" @submit.prevent="login">
+    <b-form id="loginForm" @submit.prevent="login">
       <b-input
         required
         placeholder="Name"
@@ -25,8 +25,9 @@
       >
       <b-form-valid-feedback :state="validatePassword"></b-form-valid-feedback>
     </b-form>
+
     <b-button
-      variant="primary"
+      variant="outline-primary"
       :disabled="!validateName || !validatePassword"
       @click="login()"
       >login</b-button
@@ -80,4 +81,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.authentification {
+  text-align: center;
+  background-color: rgba(255, 250, 250, 0.5);
+}
+#loginForm {
+  padding: 1em 0;
+}
+</style>

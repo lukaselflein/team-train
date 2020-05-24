@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <b-navbar fixed="top" toggleable="lg" type="dark" variant="dark">
+  <div class="navigation">
+    <b-navbar fixed="top" toggleable="lg" type="light" variant="light">
       <b-navbar-brand href="/">Train</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -39,10 +39,7 @@ export default {
 </script>
 
 <style>
-.primal {
-  background-color: greenyellow;
-}
-.navbar {
+.navigation {
   border-bottom: solid 1px black;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <b-navbar fixed="top" toggleable="lg" type="dark" variant="dark">
+  <div class="navigation">
+    <b-navbar fixed="top" toggleable="sm" type="light" variant="light">
       <b-navbar-brand href="/">Train</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -10,12 +10,18 @@
           <b-nav-item href="/">My Workouts</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
-          <b-nav-item href="/about">Über uns</b-nav-item>
+          <b-nav-item href="/new-workout">Create New Workout</b-nav-item>
+        </b-navbar-nav>
+        <b-navbar-nav>
+          <b-nav-item href="/statistics">My Team</b-nav-item>
+        </b-navbar-nav>
+        <b-navbar-nav>
+          <b-nav-item href="/about">About Us</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item @click="logout" right>
+          <b-nav-item class="signout" @click="logout" right>
             Sign Out
           </b-nav-item>
         </b-navbar-nav>
@@ -38,7 +44,7 @@ export default {
 </script>
 
 <style>
-.navbar {
+.navigation {
   border-bottom: solid 1px black;
 }
 </style>

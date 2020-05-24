@@ -140,7 +140,7 @@ export default {
       this.createWorkout(this.form);
       // this.show = false;
       this.$refs["my-modal"].hide();
-      window.location.reload();
+      // window.location.reload();
     },
     onReset(evt) {
       evt.preventDefault();
@@ -165,6 +165,7 @@ export default {
 
 .btnNew {
   min-width: 100%;
+  border-radius: 0%;
 }
 .exRow {
   min-width: 100%;

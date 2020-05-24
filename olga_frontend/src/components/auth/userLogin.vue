@@ -1,7 +1,7 @@
 <template>
   <div class="userLogin">
     <b-card class="card">
-      <h1>Anmelden</h1>
+      <h4>Anmelden</h4>
       <LoginForm />
     </b-card>
   </div>
@@ -18,12 +18,30 @@ export default {
 </script>
 
 <style scoped>
-.userLogin {
-  padding: 1em;
-  margin: auto;
-  margin-top: 4em;
+@media only screen and (max-width: 700px) {
+  .userLogin {
+    text-align: center;
+    padding: 1em;
+    margin-top: 4em;
+    display: block;
+  }
+  .card {
+    opacity: 0.9;
+  }
 }
-.card {
-  background-color: gainsboro;
+@media only screen and (min-width: 701px) {
+  .userLogin {
+    display: flex;
+    justify-content: center;
+    margin-top: 12em;
+    /* margin: 5em;
+  min-width: 100%;
+  display: flex;
+  justify-content: center; */
+  }
+  .card {
+    min-width: 600px;
+    opacity: 0.9;
+  }
 }
 </style>

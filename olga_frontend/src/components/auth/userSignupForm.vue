@@ -1,6 +1,6 @@
 <template>
   <div class="authentification">
-    <b-form class="registerForm" @submit.prevent="register">
+    <b-form id="registerForm" @submit.prevent="register">
       <b-input
         required
         placeholder="Email"
@@ -39,7 +39,7 @@
       <b-form-valid-feedback :state="validatePasswordR"></b-form-valid-feedback>
     </b-form>
     <b-button
-      variant="primary"
+      variant="outline-primary"
       :disabled="!validateNewName || !validatePassword || !validatePasswordR"
       @click="register()"
       >register</b-button
@@ -92,4 +92,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+#registerForm {
+  padding: 1em 0;
+}
+</style>

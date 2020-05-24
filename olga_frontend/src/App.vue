@@ -34,8 +34,38 @@ export default {
 };
 </script>
 
-<style>
-body {
+<style scoped>
+* {
+  font-family: "Red Hat Display", sans-serif;
+}
+html {
   overflow: auto;
+}
+html,
+body {
+  margin: 0;
+  border: none;
+  padding: 0;
+  min-width: 100%;
+}
+#app {
+  margin: 0;
+  padding: 0;
+  background-image: url("./assets/background_studio.jpg");
+  /* background-repeat: repeat-y; */
+  /* background-size: 100vh; */
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  /* background-color: cadetblue; */
+  min-width: 100%;
+  /* height: 100vh; */
+  /* max-height: 100%; */
+}
+
+@media only screen and (min-width: 701px) {
+  #app {
+    background-size: 100vw;
+  }
 }
 </style>

@@ -5,7 +5,8 @@ export default {
   state: {
     status: "",
     workoutList: JSON.parse(localStorage.getItem("allWorkouts")),
-    workout: JSON.parse(localStorage.getItem("oneWorkout"))
+    workout: JSON.parse(localStorage.getItem("oneWorkout")),
+    newWorkout: JSON.parse(localStorage.getItem("newWK"))
   },
   getters: {
     ALL_WORKOUTS: state => state.workoutList,
@@ -26,7 +27,7 @@ export default {
     },
     workout_create_success(state, workout) {
       state = "success";
-      state.workoutList.unshift(workout);
+      state.workoutList.push(workout);
     },
     workout_remove_success(state, workoutId) {
       state = "success";
@@ -105,10 +106,6 @@ export default {
             Accept: "application/json",
             "Content-Type": "application/json",
             Authorization: "Bearer " + token
-          },
-          success: function() {
-            /* eslint-disable-next-line*/
-            console.log("SUCCESS");
           }
         })
           .then(resp => {
@@ -118,7 +115,7 @@ export default {
             //   "workoutCreated",
             //   JSON.stringify(resp.data._id)
             // );
-            localStorage.setItem("allWorkouts", JSON.stringify(resp.data));
+            localStorage.setItem("newWK", JSON.stringify(resp.data));
             commit("workout_create_success", newWorkout);
             resolve(resp);
           })
@@ -130,6 +127,8 @@ export default {
     },
     patchWorkout() {},
     deleteWorkout({ commit }, workoutId) {
+      /* eslint-disable-next-line*/
+      console.log(workoutId);
       return new Promise((resolve, reject) => {
         let token = JSON.parse(localStorage.getItem("token")).token;
         commit("workout_request");
@@ -144,7 +143,7 @@ export default {
           })
           .catch(err => {
             /* eslint-disable-next-line*/
-            console.log(err.response);
+            console.log(err);
             if (err.response.status == 403) {
               alert("You can only delete workouts you created!");
             }

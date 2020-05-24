@@ -24,10 +24,4 @@ export default {
 };
 </script>
 
-<style>
-.appFooter {
-}
-.foo {
-  text-align: center;
-}
-</style>
+<style></style>

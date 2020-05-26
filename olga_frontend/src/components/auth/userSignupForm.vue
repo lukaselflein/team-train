@@ -1,5 +1,6 @@
 <template>
   <div class="authentification">
+    <h1>Sign Up</h1>
     <b-form id="registerForm" @submit.prevent="register">
       <b-input
         required
@@ -9,10 +10,10 @@
         :state="validateNewName"
         id="new-user"
       ></b-input>
-      <b-form-invalid-feedback :state="validateNewName"
+      <b-form-invalid-feedback :state="validateNewMail"
         >Your user Name must be 4-12 characters long.</b-form-invalid-feedback
       >
-      <b-form-valid-feedback :state="validateNewName"></b-form-valid-feedback>
+      <b-form-valid-feedback :state="validateNewMail"></b-form-valid-feedback>
       <b-input
         required
         placeholder="Password"
@@ -39,8 +40,8 @@
       <b-form-valid-feedback :state="validatePasswordR"></b-form-valid-feedback>
     </b-form>
     <b-button
-      variant="outline-primary"
-      :disabled="!validateNewName || !validatePassword || !validatePasswordR"
+      id="btn-signin"
+      :disabled="!validateNewMail || !validatePassword || !validatePasswordR"
       @click="register()"
       >register</b-button
     >
@@ -63,7 +64,7 @@ export default {
   computed: {
     // ...mapActions["register"],
     // form fields length validation
-    validateNewName() {
+    validateNewMail() {
       return this.username.length > 3 && this.username.length < 32;
     },
     validatePassword() {
@@ -92,8 +93,20 @@ export default {
 };
 </script>
 
-<style scoped>
-#registerForm {
-  padding: 1em 0;
+<style lang="scss" scoped>
+@import "../../mixins.scss";
+
+.authentification {
+  @include background;
+
+  #registerForm {
+    padding: 1em 0;
+    input {
+      margin-top: 1em;
+    }
+  }
+  #btn-signin {
+    @include auth;
+  }
 }
 </style>

@@ -1,81 +1,75 @@
 <template>
   <div id="content">
-    <b-card class="card">
-      <div class="filter-Btn">
-        <b-button variant="outline-warning" @click="nothing"
-          >last week</b-button
-        >
-        <b-button variant="outline-warning" @click="nothing"
-          >last month</b-button
-        >
-        <b-button variant="outline-warning" @click="nothing"
-          >all workouts</b-button
-        >
-      </div>
-      <b-container>
-        <b-table
-          show-empty
-          small
-          stacked="md"
-          :items="ALL_WORKOUTS"
-          :fields="fields"
-          class="wkList"
-        >
-          <template v-slot:cell(name)="row">
-            <b class="text-info">{{ row.value }}</b>
-          </template>
+    <h1>Workouts</h1>
+    <div class="filter-row">
+      <b-button class="filter-btn" @click="nothing">last week</b-button>
+      <b-button class="filter-btn" @click="nothing">last month</b-button>
+      <b-button class="filter-btn" @click="nothing">all workouts</b-button>
+    </div>
+    <b-container class="table-cell">
+      <b-table
+        show-empty
+        small
+        responsive
+        stacked="lg"
+        :items="ALL_WORKOUTS"
+        :fields="fields"
+        class="workout-table"
+      >
+        <template v-slot:cell(name)="row">
+          <b class="text-info">{{ row.value }}</b>
+        </template>
 
-          <template v-slot:cell(actions)="row">
-            <b-row class="btnRow">
-              <b-button
-                size="sm"
-                @click="startWorkout(row.item._id.$oid)"
-                class="mr-1"
-                variant="success"
-              >
-                Start
-              </b-button>
-              <b-button
-                class="mr-1"
-                variant="info"
-                size="sm"
-                @click="row.toggleDetails"
-              >
-                {{ row.detailsShowing ? "Hide" : "Show" }}
-              </b-button>
-              <b-button
-                size="sm"
-                @click="removeWorkout(row.item._id.$oid)"
-                class="mr-1"
-                variant="danger"
-              >
-                Delete
-              </b-button>
-            </b-row>
-          </template>
+        <template v-slot:cell(actions)="row">
+          <b-row class="btnRow">
+            <b-button
+              size="sm"
+              @click="startWorkout(row.item._id.$oid)"
+              class="mr-1"
+              variant="success"
+            >
+              Start
+            </b-button>
+            <b-button
+              class="mr-1"
+              variant="info"
+              size="sm"
+              @click="row.toggleDetails"
+            >
+              {{ row.detailsShowing ? "Hide" : "Show" }}
+            </b-button>
+            <b-button
+              size="sm"
+              @click="removeWorkout(row.item._id.$oid)"
+              class="mr-1"
+              variant="danger"
+            >
+              Delete
+            </b-button>
+          </b-row>
+        </template>
 
-          <template v-slot:row-details="row">
-            <b-card>
-              <ul>
-                <li v-for="(value, key) in row.item.exercises" :key="key">
-                  {{ key + 1 }}: {{ value.name }} ( {{ value.quantity }} )
-                </li>
-              </ul>
-            </b-card>
-          </template>
-        </b-table>
+        <template v-slot:row-details="row">
+          <b-card>
+            <ul>
+              <li v-for="(value, key) in row.item.exercises" :key="key">
+                {{ key + 1 }}: {{ value.name }} ( {{ value.quantity }} )
+              </li>
+            </ul>
+          </b-card>
+        </template>
+      </b-table>
 
-        <!-- Info modal -->
-        <b-modal
-          :id="infoModal.id"
-          :title="infoModal.title"
-          ok-only
-          @hide="resetInfoModal"
-        >
-          <pre>{{ infoModal.content }}</pre>
-        </b-modal>
-      </b-container>
-    </b-card>
+      <!-- Info modal -->
+      <b-modal
+        :id="infoModal.id"
+        :title="infoModal.title"
+        ok-only
+        @hide="resetInfoModal"
+      >
+        <pre>{{ infoModal.content }}</pre>
+      </b-modal>
+    </b-container>
   </div>
 </template>
 
@@ -136,33 +130,48 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../../mixins.scss";
+
 #content {
-  padding-bottom: 3em;
-}
-.card {
-  margin: 1em;
-  opacity: 0.9;
-}
-.filter-Btn {
-  display: flex;
-  justify-content: space-around;
-  padding: 1em 0;
-}
-.btnRow {
-  text-align: center;
-  display: block;
+  padding: 1em 1em 3em 1em;
+  // margin: 0.5em 3em;
   min-width: 100%;
+  min-height: 100%;
+  position: absolute;
+  top: 5em;
+  bottom: 0;
+
+  background-color: white;
+  .filter-row {
+    display: flex;
+    justify-content: space-around;
+    padding: 1em 0;
+    .filter-btn {
+      background-color: $dark-title;
+      font-size: 0.7rem;
+    }
+  }
+  .workout-table {
+    text-align: left;
+  }
 }
-.mr-1 {
-  margin-bottom: 0.5em;
-  margin: 0;
-}
-li {
-  list-style: none;
-}
-.wkList {
-  margin-bottom: 3em;
-  text-align: left;
+@media only screen and (min-width: 700px) {
+  #content {
+    background-color: white;
+    // max-width: 90%;
+    min-width: 50%;
+
+    .filter-row {
+      .filter-btn {
+        font-size: 0.8em;
+      }
+    }
+  }
+  @media only screen and (min-width: 800px) {
+    #content {
+      min-width: 50%;
+    }
+  }
 }
 </style>

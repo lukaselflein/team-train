@@ -1,5 +1,6 @@
 <template>
   <div class="authentification">
+    <h1>Sign In</h1>
     <b-form id="loginForm" @submit.prevent="login">
       <b-input
         required
@@ -27,10 +28,12 @@
     </b-form>
 
     <b-button
+      id="btn-login"
       variant="outline-primary"
       :disabled="!validateName || !validatePassword"
       @click="login()"
-      >login</b-button
+    >
+      login</b-button
     >
   </div>
 </template>
@@ -81,12 +84,20 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../../mixins.scss";
+
 .authentification {
-  text-align: center;
-  background-color: rgba(255, 250, 250, 0.5);
+  @include background;
+
+  #loginForm {
+    padding: 1em 0;
+    input {
+      margin-top: 1em;
+    }
+  }
 }
-#loginForm {
-  padding: 1em 0;
+#btn-login {
+  @include auth;
 }
 </style>

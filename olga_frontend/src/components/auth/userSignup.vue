@@ -1,9 +1,9 @@
 <template>
   <div class="register">
-    <b-card class="card">
-      <h4>Registrieren</h4>
-      <AuthForm />
-    </b-card>
+    <!-- <b-card class="card"> -->
+
+    <AuthForm />
+    <!-- </b-card> -->
   </div>
 </template>
 
@@ -18,31 +18,18 @@ export default {
 };
 </script>
 
-<style scoped>
-@media only screen and (max-width: 700px) {
-  .register {
-    text-align: center;
-    padding: 1em;
-    margin-top: 4em;
-    display: block;
-  }
-  .card {
-    opacity: 0.9;
-  }
+<style lang="scss" scoped>
+.register {
+  text-align: center;
+  padding: 2em;
+  margin-top: 4em;
+  display: block;
 }
 @media only screen and (min-width: 701px) {
   .register {
     display: flex;
     justify-content: center;
     margin-top: 12em;
-    /* margin: 5em;
-  min-width: 100%;
-  display: flex;
-  justify-content: center; */
-  }
-  .card {
-    min-width: 600px;
-    opacity: 0.9;
   }
 }
 </style>

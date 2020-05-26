@@ -72,8 +72,12 @@
             variant="outline-primary"
           ></b-icon>
           <b-row class="lstRow">
-            <b-button type="submit" variant="outline-primary">Submit</b-button>
-            <b-button type="reset" variant="outline-danger">Reset</b-button>
+            <b-button type="submit" class="btn-lg" variant="outline-primary"
+              >Submit</b-button
+            >
+            <b-button type="reset" class="btn-lg" variant="outline-danger"
+              >Reset</b-button
+            >
           </b-row>
         </div>
       </b-form>
@@ -149,48 +153,48 @@ export default {
 };
 </script>
 
-<style scoped>
-.card {
-  opacity: 0.9;
-  margin: 4em 1em 4em 1em;
-  text-align: center;
-  overflow-y: scroll;
-}
+<style lang="scss" scoped>
 .create-workout {
   min-height: 100vh;
-}
-.create-form {
-  padding: 1em;
-  text-align: left;
-}
-.lstRow {
-  display: flex;
-  justify-content: flex-end;
-}
-.lstRow > button {
-  margin-right: 1em;
-}
-.exRow {
-  padding: 0 1em 0 1em;
-  display: grid;
-  grid-template-columns: 4fr 3fr 1fr;
-  justify-items: end;
-  justify-content: end;
-  grid-column-gap: 10px;
-  margin-bottom: 0.5em;
-}
-
-#trash {
-  color: palevioletred;
-  margin: 0.1em;
-  padding: 0.1em;
-  border: palevioletred solid 1px;
-  border-radius: 20px;
-}
-#plus {
-  color: blue;
-  border: blue 1px solid;
-  border-radius: 20px;
-  padding: 0.1em;
+  .card {
+    opacity: 0.9;
+    margin: 4em 1em 4em 1em;
+    text-align: center;
+    overflow-y: scroll;
+    .create-form {
+      padding: 1em;
+      text-align: left;
+      .lstRow {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .lstRow > button {
+        margin-right: 1em;
+      }
+      .exRow {
+        padding: 0 1em 0 1em;
+        display: grid;
+        grid-template-columns: 4fr 3fr 1fr;
+        justify-items: end;
+        justify-content: end;
+        grid-column-gap: 10px;
+        margin-bottom: 0.5em;
+        #trash {
+          color: palevioletred;
+          margin: 0.1em;
+          padding: 0.1em;
+          border: palevioletred solid 1px;
+          border-radius: 20px;
+        }
+      }
+      #plus {
+        color: blue;
+        border: blue 1px solid;
+        border-radius: 20px;
+        padding: 0.1em;
+        margin-bottom: 1em;
+      }
+    }
+  }
 }
 </style>

@@ -1,0 +1,23 @@
+$dark: #0b1f3a;
+$dark-title: #7776bc;
+$light-title: #cdc7e5;
+$alarm-title: #ff674d;
+$highlight: #ffec51;
+$softlight: #fffbfb;
+
+$highlighter: rgba(255, 255, 255, 0.8);
+
+@mixin background {
+  padding: 1em;
+  border-radius: 25px;
+  background-color: $highlighter;
+  margin: 0 1em 0 1em;
+  text-align: center;
+}
+
+@mixin auth {
+  background-color: $dark;
+  color: $softlight;
+  min-height: 50px;
+  min-width: 100px;
+}

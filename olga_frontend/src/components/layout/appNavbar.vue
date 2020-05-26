@@ -1,20 +1,28 @@
 <template>
   <div class="navigation">
-    <b-navbar fixed="top" toggleable="sm" type="light" variant="light">
+    <b-navbar fixed="top" toggleable="sm" small type="light" variant="light">
       <b-navbar-brand href="/">Train</b-navbar-brand>
 
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-navbar-toggle target="nav-collapse">
+        <template v-slot:default="{ expanded }">
+          <b-icon v-if="expanded" icon="x-square"></b-icon>
+          <b-icon v-else icon="grid"></b-icon>
+        </template>
+      </b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item href="/">My Workouts</b-nav-item>
         </b-navbar-nav>
+        <b-icon icon="dot"></b-icon>
         <b-navbar-nav>
           <b-nav-item href="/new-workout">Create New Workout</b-nav-item>
         </b-navbar-nav>
+        <b-icon icon="dot"></b-icon>
         <b-navbar-nav>
           <b-nav-item href="/statistics">My Team</b-nav-item>
         </b-navbar-nav>
+        <b-icon icon="dot"></b-icon>
         <b-navbar-nav>
           <b-nav-item href="/about">About Us</b-nav-item>
         </b-navbar-nav>
@@ -43,7 +51,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped lang="scss">
 .navigation {
   border-bottom: solid 1px black;
 }

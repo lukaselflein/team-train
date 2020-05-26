@@ -1,9 +1,8 @@
 <template>
   <div class="userLogin">
-    <b-card class="card">
-      <h4>Anmelden</h4>
-      <LoginForm />
-    </b-card>
+    <!-- <b-card class="card"> -->
+    <LoginForm />
+    <!-- </b-card> -->
   </div>
 </template>
 
@@ -17,16 +16,16 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 @media only screen and (max-width: 700px) {
   .userLogin {
     text-align: center;
-    padding: 1em;
+    padding: 2em;
     margin-top: 4em;
     display: block;
-  }
-  .card {
-    opacity: 0.9;
+    .card {
+      opacity: 0.9;
+    }
   }
 }
 @media only screen and (min-width: 701px) {
@@ -34,14 +33,10 @@ export default {
     display: flex;
     justify-content: center;
     margin-top: 12em;
-    /* margin: 5em;
-  min-width: 100%;
-  display: flex;
-  justify-content: center; */
-  }
-  .card {
-    min-width: 600px;
-    opacity: 0.9;
+
+    .card {
+      min-width: 600px;
+    }
   }
 }
 </style>

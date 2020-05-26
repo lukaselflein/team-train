@@ -13,13 +13,13 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .stati {
   text-align: center;
   margin: 5em 1em 1em 1em;
   min-height: 100vh;
-}
-.card {
-  opacity: 0.9;
+  .card {
+    opacity: 0.9;
+  }
 }
 </style>

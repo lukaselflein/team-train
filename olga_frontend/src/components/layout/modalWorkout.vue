@@ -172,7 +172,6 @@ export default {
   display: inline;
 }
 .exRow:nth-child(1) {
-  background-color: blue;
 }
 
 .lstRow {

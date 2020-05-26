@@ -3,7 +3,12 @@
     <b-navbar fixed="top" toggleable="lg" type="light" variant="light">
       <b-navbar-brand href="/">Train</b-navbar-brand>
 
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-navbar-toggle target="nav-collapse">
+        <template v-slot:default="{ expanded }">
+          <b-icon v-if="expanded" icon="x-square"></b-icon>
+          <b-icon v-else icon="grid"></b-icon>
+        </template>
+      </b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>

@@ -4,35 +4,24 @@
     <b-form id="loginForm" @submit.prevent="login">
       <b-input
         required
-        placeholder="Name"
-        v-model="username"
-        :state="validateName"
+        placeholder="Email"
+        v-model="email"
         id="feedback-user"
       ></b-input>
-      <b-form-invalid-feedback :state="validateName"
+      <!-- <b-form-invalid-feedback :state="validateName"
         >Your user ID must be 4-12 characters long.</b-form-invalid-feedback
       >
-      <b-form-valid-feedback :state="validateName"></b-form-valid-feedback>
+      <b-form-valid-feedback :state="validateName"></b-form-valid-feedback> -->
       <b-input
         required
         placeholder="Password"
         v-model="password"
         type="password"
-        :state="validatePassword"
         id="feedback-password"
       ></b-input>
-      <b-form-invalid-feedback :state="validatePassword"
-        >Your password must be 6-12 characters long.</b-form-invalid-feedback
-      >
-      <b-form-valid-feedback :state="validatePassword"></b-form-valid-feedback>
     </b-form>
 
-    <b-button
-      id="btn-login"
-      variant="outline-primary"
-      :disabled="!validateName || !validatePassword"
-      @click="login()"
-    >
+    <b-button id="btn-login" variant="outline-primary" @click="login()">
       login</b-button
     >
   </div>
@@ -46,7 +35,7 @@ export default {
   data() {
     // bound data from form input
     return {
-      username: "",
+      email: "",
       password: ""
     };
   },
@@ -63,12 +52,12 @@ export default {
   // login user by taking data from input and sending it as post request to /user/signin
   methods: {
     login() {
-      let name = this.username;
+      let email = this.email;
       let password = this.password;
 
       this.$store
         // call action from store "login"
-        .dispatch("login", { name, password })
+        .dispatch("login", { email, password })
         .then(() => {
           this.$router.push("/");
         })

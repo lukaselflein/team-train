@@ -41,21 +41,27 @@ export default {
   margin: 0;
   padding: 0;
   font-family: "Mukata", sans-serif;
-
-  html {
-    overflow: auto;
-  }
   html,
   body {
     margin: 0;
     border: none;
     padding: 0;
+    overflow-x: hidden;
+    background-image: url("./assets/background_studio.jpg");
+    background-attachment: fixed;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
     min-width: 100%;
+    min-width: 100vw;
+
     #app {
+      padding: 3em 1em 1em 1em;
       h1,
       h2,
       h3,
-      h4 {
+      h4,
+      h5 {
         font-weight: bolder;
         color: $dark;
       }
@@ -75,14 +81,9 @@ export default {
         background-color: none;
         opacity: 1;
       }
-
-      background-image: url("./assets/background_studio.jpg");
-      background-attachment: fixed;
-      background-position: center;
-      background-size: cover;
-      min-width: 100%;
+      background-color: rgba($softlight, 0.5);
+      background: fixed center center cover;
       min-height: 100vh;
-      min-width: 100vw;
     }
   }
 }

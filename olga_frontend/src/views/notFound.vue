@@ -1,9 +1,7 @@
 <template>
   <div id="notFound">
-    <b-card class="card">
-      <h4>Page not found...</h4>
-      <p>And no Training here ;(</p>
-    </b-card>
+    <h4>Page not found...</h4>
+    <p>And no Training here ;(</p>
   </div>
 </template>
 
@@ -13,17 +11,19 @@ export default {
   components: {}
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
+@import "../mixins.scss";
+
 #notFound {
-  display: flex;
+  @include background;
+  min-width: 400px;
+  margin: 8em auto 0 auto;
+  max-width: 50%;
+  opacity: 0.9;
   justify-content: center;
   text-align: center;
 }
-.card {
-  min-width: 400px;
-  margin: 8em 2em 0 2em;
-  opacity: 0.9;
-}
+
 @media only screen and (min-width: 701px) {
   .card {
     max-width: 500px;

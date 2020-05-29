@@ -3,17 +3,24 @@
     <h1>Sign Up</h1>
     <b-form id="registerForm" @submit.prevent="register">
       <b-input
-        required
-        placeholder="Email"
-        type="email"
+        disabled
+        placeholder="Username"
+        type="text"
         v-model="username"
         :state="validateNewName"
         id="new-user"
       ></b-input>
-      <b-form-invalid-feedback :state="validateNewMail"
+      <b-form-invalid-feedback :state="validateNewName"
         >Your user Name must be 4-12 characters long.</b-form-invalid-feedback
       >
-      <b-form-valid-feedback :state="validateNewMail"></b-form-valid-feedback>
+      <b-form-valid-feedback :state="validateNewName"></b-form-valid-feedback>
+      <b-input
+        required
+        placeholder="Email"
+        type="email"
+        v-model="email"
+        id="new-user"
+      ></b-input>
       <b-input
         required
         placeholder="Password"
@@ -41,7 +48,7 @@
     </b-form>
     <b-button
       id="btn-signin"
-      :disabled="!validateNewMail || !validatePassword || !validatePasswordR"
+      :disabled="!validatePassword || !validatePasswordR"
       @click="register()"
       >register</b-button
     >
@@ -57,6 +64,7 @@ export default {
     // bound data from form input
     return {
       username: "",
+      email: "",
       password: "",
       passwordR: ""
     };
@@ -64,7 +72,7 @@ export default {
   computed: {
     // ...mapActions["register"],
     // form fields length validation
-    validateNewMail() {
+    validateNewName() {
       return this.username.length > 3 && this.username.length < 32;
     },
     validatePassword() {
@@ -77,13 +85,21 @@ export default {
   },
   methods: {
     register() {
-      let name = this.username;
+      // let name = this.username;
+      let email = this.email;
       let password = this.password;
 
       this.$store
-        .dispatch("register", { name, password })
+        .dispatch("register", { email, password })
         .then(() => {
-          this.$router.push("/login");
+          this.$store
+            .dispatch("login", { email, password })
+            .then(() => {
+              this.$router.push("/");
+            })
+            .catch(err => {
+              alert("Ups! Etwas ist schiefgelaufen.\n" + err);
+            });
         })
         .catch(err => {
           alert("Ups! Etwas ist schiefgelaufen.\n" + err);

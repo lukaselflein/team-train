@@ -2,11 +2,11 @@ import Vue from "vue";
 import Router from "vue-router";
 import store from "@/store/index.js";
 import Home from "@/views/Home.vue";
+import Workout from "@/views/Workout.vue";
 import notFound from "@/views/notFound.vue";
 import Login from "@/components/auth/userLogin.vue";
 import Signup from "@/components/auth/userSignup.vue";
 import Exercise from "@/components/data-detail/exercise.vue";
-import Team from "@/views/Team.vue";
 import NewWorkout from "@/views/NewWorkout.vue";
 
 Vue.use(Router);
@@ -51,9 +51,9 @@ let router = new Router({
       }
     },
     {
-      path: "/statistics",
-      name: "Team",
-      component: Team,
+      path: "/workouts",
+      name: "Workouts",
+      component: Workout,
       meta: {
         requiresAuth: true
       }

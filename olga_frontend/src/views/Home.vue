@@ -1,20 +1,18 @@
 <template>
   <div class="home">
-    <!-- <createWorkout class="newWK" /> -->
-    <WorkoutList />
+    <!-- <WorkoutList /> -->
+    <Statistic />
   </div>
 </template>
 
 <script>
 // import axios from "axios";
-// import ModalWorkout from "@/components/layout/modalWorkout";
-import WorkoutList from "@/components/data-overview/workoutList";
+import Statistic from "@/components/data-overview/statistic";
 
 export default {
   name: "Home",
   components: {
-    // createWorkout: ModalWorkout,
-    WorkoutList
+    Statistic
   }
 };
 </script>

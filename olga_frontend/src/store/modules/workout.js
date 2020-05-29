@@ -27,7 +27,7 @@ export default {
     },
     workout_create_success(state, workout) {
       state = "success";
-      state.workoutList.push(workout);
+      state.workoutList.shift(workout);
     },
     workout_remove_success(state, workoutId) {
       state = "success";
@@ -120,6 +120,9 @@ export default {
             resolve(resp);
           })
           .catch(err => {
+            // if (err.resp.status == 400) {
+            //   alert("Workout already exists.");
+            // }
             commit("workout_error");
             reject(err);
           });
@@ -144,9 +147,9 @@ export default {
           .catch(err => {
             /* eslint-disable-next-line*/
             console.log(err);
-            if (err.response.status == 403) {
-              alert("You can only delete workouts you created!");
-            }
+            // if (err.response.status == 403) {
+            //   alert("You can only delete workouts you created!");
+            // }
             commit("workout_error");
 
             reject(err);

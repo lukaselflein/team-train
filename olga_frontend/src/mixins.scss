@@ -1,9 +1,9 @@
-$dark: #0b1f3a;
-$dark-title: #7776bc;
-$light-title: #cdc7e5;
-$alarm-title: #ff674d;
-$highlight: #ffec51;
-$softlight: #fffbfb;
+$dark: rgb(11, 31, 58);
+$dark-title: rgb(119, 118, 188);
+$light-title: rgb(205, 199, 229);
+$alarm-title: rgb(255, 103, 77);
+$highlight: rgb(255, 236, 81);
+$softlight: rgb(255, 251, 251);
 
 $highlighter: rgba(255, 255, 255, 0.8);
 
@@ -13,6 +13,9 @@ $highlighter: rgba(255, 255, 255, 0.8);
   background-color: $highlighter;
   margin: 0 1em 0 1em;
   text-align: center;
+  -webkit-box-shadow: 0px 0px 15px 0px rgba($dark-title, 0.5);
+  -moz-box-shadow: 0px 0px 15px 0px rgba($dark-title, 0.5);
+  box-shadow: 0px 0px 15px 0px rgba($dark-title, 0.5);
 }
 
 @mixin auth {

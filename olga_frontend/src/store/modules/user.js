@@ -35,19 +35,19 @@ export default {
   },
   actions: {
     register({ commit }, userdata) {
-      let nm = userdata.name;
+      let em = userdata.email;
       let pw = userdata.password;
       return new Promise((resolve, reject) => {
         commit("auth_request");
         axios({
           url: "http://localhost:5000/signup",
-          data: { email: nm, password: pw },
+          data: { email: em, password: pw },
           method: "POST"
         })
           .then(resp => {
             const userId = resp.data;
-            /* eslint-disable-next-line */
-            console.log(userId);
+            // /* eslint-disable-next-line */
+            // console.log(userId);
             localStorage.setItem("user", JSON.stringify(userId));
             commit("signup_success", userId);
             resolve(resp);
@@ -59,13 +59,13 @@ export default {
       });
     },
     login({ commit }, userdata) {
-      let nm = userdata.name;
+      let em = userdata.email;
       let pw = userdata.password;
       return new Promise((resolve, reject) => {
         commit("auth_request");
         axios({
           url: "http://localhost:5000/login",
-          data: { email: nm, password: pw },
+          data: { email: em, password: pw },
           method: "POST"
         })
           .then(resp => {

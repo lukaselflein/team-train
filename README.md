@@ -48,14 +48,6 @@ All team members can complete custom-tailored workout plans to claim points, and
 
     Navigate to [http://localhost:8080](http://localhost:8080)
 
-# How to start
-``` bash
-mongod --dbpath ./backend/
-python ./backend/env/app.py
-cd ./frontend
-npm run serve
-```
-
 # Contributors
 * Olga - Frontend
 * Lu - Backend

@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 from flask import Response, request
 from flask_restful import Resource
@@ -31,8 +32,7 @@ class SignupApi(Resource):
 class LoginApi(Resource):
     @cross_origin()
     def post(self):
-        print(request.headers)
-        print(request.json)
+        logging.debug(request.headers)
         try:
             body = request.get_json()
             user = User.objects.get(email=body.get('email'))

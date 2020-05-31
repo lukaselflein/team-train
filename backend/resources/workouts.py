@@ -1,3 +1,4 @@
+import json
 from flask import Response, request
 from database.models import Workout, User
 from flask_restful import Resource
@@ -12,8 +13,20 @@ InternalServerError, UpdatingWorkoutError, DeletingWorkoutError, WorkoutNotExist
 
 class WorkoutsApi(Resource):
   def get(self):
-    workouts = Workout.objects().to_json()
-    return Response(workouts, mimetype="application/json", status=200)
+    db_workouts = Workout.objects()
+    # flatten the default db entries for a readable api response
+    workout_dicts = []
+    for db_workout in db_workouts:
+        pretty_workout = {
+          'id': str(db_workout.id),
+          'exercises':  [{'name': e.name, 'quantity': e.quantity} for e in db_workout.exercises],
+          'time': str(db_workout.date_added),
+          'added_by': str(db_workout.added_by.email)
+          }
+        workout_dicts += [pretty_workout]
+
+    response_data = json.dumps(workout_dicts)
+    return Response(response_data, mimetype="application/json", status=200)
 
   @jwt_required
   def post(self):

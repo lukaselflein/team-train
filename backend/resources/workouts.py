@@ -23,7 +23,10 @@ class WorkoutsApi(Resource):
                          for e in db_workout.exercises],
           'time': str(db_workout.date_added),
           'added_by': str(db_workout.added_by.username),
-          'description': str(db_workout.description)
+          'description': str(db_workout.description),
+          'points': db_workout.points,
+          'has_timer': db_workout.has_timer,
+          'tags': db_workout.tags
           }
         workout_dicts += [pretty_workout]
 

@@ -2,7 +2,7 @@
 export PYTHONDONTWRITEBYTECODE=1 
 
 echo 'Entering in test mode...'
-export ENV_FILE_LOCATION=./.env.test
+export ENV_FILE_LOCATION=./.testenv
 #python3 -m unittest tests/test_signup.py 
 #python3 -m unittest tests/test_login.py 
 python3 -m unittest tests/test_create_workout.py 

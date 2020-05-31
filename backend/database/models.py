@@ -25,6 +25,8 @@ class Workout(db.Document):
     date_added = db.DateTimeField(default=datetime.datetime.utcnow)
     date_modified = db.DateTimeField(default=datetime.datetime.utcnow)
     description = db.StringField()
+    has_timer = db.BooleanField(default=False)
+    tags = db.ListField(db.StringField())
 
 
 class User(db.Document):

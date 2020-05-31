@@ -1,10 +1,12 @@
 #export FLASK_ENV=development
-export ENV_FILE_LOCATION=./.env
 export PYTHONDONTWRITEBYTECODE=1 
 
+echo 'Entering in test mode...'
+export ENV_FILE_LOCATION=./.env.test
 #python3 -m unittest tests/test_signup.py 
 #python3 -m unittest tests/test_login.py 
 python3 -m unittest tests/test_create_workout.py 
 
-echo 'starting server...'
+echo 'Entering production mode...'
+export ENV_FILE_LOCATION=./.env
 python3 app.py

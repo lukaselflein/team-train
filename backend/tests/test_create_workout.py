@@ -8,7 +8,8 @@ class TestWorkoutCreation(BaseCase):
         # Given
         payload = json.dumps({
             "email": "unit_test_email@test.com",
-            "password": "unit_test_password"
+            "password": "unit_test_password",
+            "username": "unit_test_username"
         })
 
         self.app.post('/signup', 

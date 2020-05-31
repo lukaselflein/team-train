@@ -19,9 +19,11 @@ class WorkoutsApi(Resource):
     for db_workout in db_workouts:
         pretty_workout = {
           'id': str(db_workout.id),
-          'exercises':  [{'name': e.name, 'quantity': e.quantity} for e in db_workout.exercises],
+          'exercises':  [{'name': e.name, 'quantity': e.quantity, 'description': e.description} 
+                         for e in db_workout.exercises],
           'time': str(db_workout.date_added),
-          'added_by': str(db_workout.added_by.email)
+          'added_by': str(db_workout.added_by.username),
+          'description': str(db_workout.description)
           }
         workout_dicts += [pretty_workout]
 

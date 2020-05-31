@@ -24,10 +24,12 @@ class Workout(db.Document):
     added_by = db.ReferenceField('User')
     date_added = db.DateTimeField(default=datetime.datetime.utcnow)
     date_modified = db.DateTimeField(default=datetime.datetime.utcnow)
+    description = db.StringField()
 
 
 class User(db.Document):
     email = db.EmailField(required=True, unique=True)
+    username = db.StringField(required=True, unique=True)
     password = db.StringField(required=True, min_length=6)
     workouts = db.ListField(db.ReferenceField('Workout', reverse_delete_rule=db.PULL))
     roles = db.ListField()

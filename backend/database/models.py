@@ -36,6 +36,7 @@ class User(db.Document):
     workouts = db.ListField(db.ReferenceField('Workout', reverse_delete_rule=db.PULL))
     roles = db.ListField()
     team = db.StringField()
+    score = db.IntField(default=0)
 
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')

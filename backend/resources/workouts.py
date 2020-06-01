@@ -26,7 +26,8 @@ class WorkoutsApi(Resource):
           'description': str(db_workout.description),
           'points': db_workout.points,
           'has_timer': db_workout.has_timer,
-          'tags': db_workout.tags
+          'tags': db_workout.tags,
+          'name': db_workout.name
           }
         workout_dicts += [pretty_workout]
 

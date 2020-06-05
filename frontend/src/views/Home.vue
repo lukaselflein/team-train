@@ -1,18 +1,18 @@
 <template>
   <div class="home">
     <!-- <WorkoutList /> -->
-    <Statistic />
+    <UserHome />
   </div>
 </template>
 
 <script>
 // import axios from "axios";
-import Statistic from "@/components/data-overview/statistic";
+import UserHome from "@/components/data-overview/userHome";
 
 export default {
   name: "Home",
   components: {
-    Statistic
+    UserHome
   }
 };
 </script>

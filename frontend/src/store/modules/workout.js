@@ -32,7 +32,7 @@ export default {
     workout_remove_success(state, workoutId) {
       state = "success";
       state.workoutList = state.workoutList.filter(
-        workout => workout._id !== workoutId
+        workout => workout.id !== workoutId
       );
     },
     workout_error(state) {
@@ -130,8 +130,6 @@ export default {
     },
     patchWorkout() {},
     deleteWorkout({ commit }, workoutId) {
-      /* eslint-disable-next-line*/
-      console.log(workoutId);
       return new Promise((resolve, reject) => {
         let token = JSON.parse(localStorage.getItem("token")).token;
         commit("workout_request");

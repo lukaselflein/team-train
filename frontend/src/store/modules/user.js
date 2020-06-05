@@ -5,7 +5,7 @@ export default {
   state: {
     status: "",
     token: JSON.parse(localStorage.getItem("token")) || "",
-    user: localStorage.getItem("userId") || ""
+    user: JSON.parse(localStorage.getItem("userData")) || ""
   },
   getters: {
     AUTH_STATUS: state => state.status,
@@ -16,14 +16,13 @@ export default {
     auth_request(state) {
       state.status = "loading";
     },
-    signup_success(state, userId) {
+    signup_success(state, userData) {
       state.status = "success";
-      state.user = userId;
+      state.user = userData;
     },
-    auth_success(state, token /*, userId*/) {
+    auth_success(state, token) {
       state.status = "success";
       state.token = token;
-      // state.user = userId;
     },
     logout(state) {
       state.status = "";
@@ -35,21 +34,20 @@ export default {
   },
   actions: {
     register({ commit }, userdata) {
+      let nm = userdata.username;
       let em = userdata.email;
       let pw = userdata.password;
       return new Promise((resolve, reject) => {
         commit("auth_request");
         axios({
           url: "http://localhost:5000/signup",
-          data: { email: em, password: pw },
+          data: { email: em, username: nm, password: pw },
           method: "POST"
         })
           .then(resp => {
-            const userId = resp.data;
-            // /* eslint-disable-next-line */
-            // console.log(userId);
-            localStorage.setItem("user", JSON.stringify(userId));
-            commit("signup_success", userId);
+            const userData = resp.data;
+            localStorage.setItem("user", JSON.stringify(userData));
+            commit("signup_success", userData);
             resolve(resp);
           })
           .catch(err => {
@@ -60,7 +58,9 @@ export default {
     },
     login({ commit }, userdata) {
       let em = userdata.email;
+
       let pw = userdata.password;
+
       return new Promise((resolve, reject) => {
         commit("auth_request");
         axios({

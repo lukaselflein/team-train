@@ -85,8 +85,25 @@ class WorkoutApi(Resource):
 
   def get(self, id):
     try:
-        workouts = Workout.objects.get(id=id).to_json()
-        return Response(workouts, mimetype="application/json", status=200)
+        db_workout = Workout.objects.get(id=id)
+
+        # the db object is pretty deep, flatten it to make stuff easier for the fronted
+        pretty_workout = {
+          'id': str(db_workout.id),
+          'exercises':  [{'name': e.name, 'quantity': e.quantity, 'description': e.description} 
+                         for e in db_workout.exercises],
+          'time': str(db_workout.date_added),
+          'added_by': str(db_workout.added_by.username),
+          'description': str(db_workout.description),
+          'points': db_workout.points,
+          'has_timer': db_workout.has_timer,
+          'tags': db_workout.tags,
+          'name': db_workout.name
+          }
+
+        response_data = json.dumps(pretty_workout)
+        return Response(response_data, mimetype="application/json", status=200)
+
     except DoesNotExist:
         raise WorkoutNotExistsError
     except Exception:

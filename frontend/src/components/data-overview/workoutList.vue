@@ -3,7 +3,16 @@
     <h1>Workouts</h1>
     <FilterButtons />
     <b-row>
-      <b-card class="cardy" v-for="(item, index) in ALL_WORKOUTS" :key="index">
+      <b-card
+        sub-title="added by"
+        class="cardy"
+        v-for="(item, index) in ALL_WORKOUTS"
+        :key="index"
+      >
+        <b-row>
+          <p>{{ ALL_WORKOUTS[index].added_by }} at</p>
+          <p>{{ convertTime(ALL_WORKOUTS[index].time) }}</p>
+        </b-row>
         <div class="workout-title">
           <h4>{{ item.name }}</h4>
           <p>({{ item.points }} Points)</p>
@@ -29,7 +38,7 @@
           <div class="workout-btn">
             <b-button
               size="sm"
-              @click="startWorkout(item._id.$oid)"
+              @click="startWorkout(item._id)"
               class="mr-1"
               variant="success"
             >
@@ -45,7 +54,7 @@
             </b-button>
             <b-button
               size="sm"
-              @click="removeWorkout(item._id.$oid)"
+              @click="removeWorkout(item.id)"
               class="mr-1"
               variant="danger"
             >
@@ -89,6 +98,20 @@ export default {
   methods: {
     ...mapActions(["getAllWorkouts", "getWorkout", "deleteWorkout"]),
 
+    convertTime(unix) {
+      let timestamp = Date.parse(unix);
+      let newTime = new Date(timestamp * 1000);
+      const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      };
+
+      return newTime.toLocaleDateString("en-US", options);
+      // expected output: Donnerstag, 20. Dezember 2012
+    },
+
     startWorkout(id) {
       this.$router.push("/workouts/" + id);
     },
@@ -102,8 +125,9 @@ export default {
       /* eslint-disable-next-line*/
       console.log(id);
       this.deleteWorkout(id);
-      // patch for state.workoutList undefined after creating new workout
-      window.location.reload();
+      // // patch for state.workoutList undefined after creating new workout
+      // window.location.reload();
+      this.getAllWorkouts();
     }
   },
   created() {

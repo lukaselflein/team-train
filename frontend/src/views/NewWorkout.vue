@@ -166,7 +166,7 @@ export default {
       this.createWorkout(this.form);
       // this.show = false;
       // this.$refs["my-modal"].hide();
-      alert("Your Workout " + this.form.name + " has been created!");
+      // alert("Your Workout " + this.form.name + " has been created!");
       this.$router.push("/");
     },
     onReset(evt) {

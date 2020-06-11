@@ -3,7 +3,6 @@
     <h1>Sign Up</h1>
     <b-form id="registerForm" @submit.prevent="register">
       <b-input
-        disabled
         placeholder="Username"
         type="text"
         v-model="username"
@@ -48,7 +47,7 @@
     </b-form>
     <b-button
       id="btn-signin"
-      :disabled="!validatePassword || !validatePasswordR"
+      :disabled="!validateNewName || !validatePassword || !validatePasswordR"
       @click="register()"
       >register</b-button
     >
@@ -85,12 +84,12 @@ export default {
   },
   methods: {
     register() {
-      // let name = this.username;
+      let username = this.username;
       let email = this.email;
       let password = this.password;
 
       this.$store
-        .dispatch("register", { email, password })
+        .dispatch("register", { username, email, password })
         .then(() => {
           this.$store
             .dispatch("login", { email, password })

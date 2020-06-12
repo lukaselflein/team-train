@@ -13,24 +13,9 @@ InternalServerError, UpdatingWorkoutError, DeletingWorkoutError, WorkoutNotExist
 
 class WorkoutsApi(Resource):
   def get(self):
-    db_workouts = Workout.objects()
+    workouts = Workout.objects()
     # flatten the default db entries for a readable api response
-    workout_dicts = []
-    for db_workout in db_workouts:
-        pretty_workout = {
-          'id': str(db_workout.id),
-          'exercises':  [{'name': e.name, 'quantity': e.quantity, 'description': e.description} 
-                         for e in db_workout.exercises],
-          'time': str(db_workout.date_added),
-          'added_by': str(db_workout.added_by.username),
-          'description': str(db_workout.description),
-          'points': db_workout.points,
-          'has_timer': db_workout.has_timer,
-          'tags': db_workout.tags,
-          'name': db_workout.name
-          }
-        workout_dicts += [pretty_workout]
-
+    workout_dicts = [workout.to_dict() for workout in workouts]
     response_data = json.dumps(workout_dicts)
     return Response(response_data, mimetype="application/json", status=200)
 

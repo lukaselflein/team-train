@@ -1,6 +1,7 @@
 from .db import db
 from flask_bcrypt import generate_password_hash, check_password_hash
 import datetime
+import json
 
 class Exercise(db.EmbeddedDocument):
     '''An exercise has a name, and a quantity (number of reps/time).'''
@@ -12,6 +13,27 @@ class Exercise(db.EmbeddedDocument):
     unit = db.StringField()
     # Free-text details
     description = db.StringField()
+
+    def to_dict(self):
+        return {'name': self.name, 
+                'quantity': self.quantity, 
+                'description': self.description}
+
+
+class ScoreLog(db.Document):
+    '''The history of a user's scores, in the format {time: t, score: 5}'''
+    score = db.IntField(required=True)
+    points = db.IntField(required=True)
+    time = db.DateTimeField(default=datetime.datetime.utcnow)
+    workout_id = db.StringField()
+    added_by = db.ReferenceField('User')
+    name = db.StringField(default='score_log')
+
+    def to_dict(self):
+        log = {'time': str(self.time), 'score': self.score, 'points': self.points}
+        return log
+
+
 
 class Workout(db.Document):
     '''A workout contains exercises and metadata.
@@ -28,6 +50,21 @@ class Workout(db.Document):
     has_timer = db.BooleanField(default=False)
     tags = db.ListField(db.StringField())
 
+    def to_dict(self): 
+        workout_dict = {
+          'id': str(self.id),
+          'exercises': [e.to_dict() for e in self.exercises],
+          'time': str(self.date_added),
+          'added_by': str(self.added_by.username),
+          'description': str(self.description),
+          'points': self.points,
+          'has_timer': self.has_timer,
+          'tags': self.tags,
+          'name': self.name
+          }
+        return workout_dict
+
+
 
 class User(db.Document):
     email = db.EmailField(required=True, unique=True)
@@ -36,7 +73,9 @@ class User(db.Document):
     workouts = db.ListField(db.ReferenceField('Workout', reverse_delete_rule=db.PULL))
     roles = db.ListField()
     team = db.StringField()
-    score = db.IntField(default=0)
+    current_score = db.IntField(default=0)
+    score_history = db.ListField(db.ReferenceField('ScoreLog', reverse_delete_rule=db.PULL))
+
 
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')

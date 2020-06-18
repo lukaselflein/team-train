@@ -4,6 +4,7 @@ $light-title: rgb(205, 199, 229);
 $alarm-title: rgb(255, 103, 77);
 $highlight: rgb(255, 236, 81);
 $softlight: rgb(255, 251, 251);
+$grey: rgb(120, 112, 124);
 
 $highlighter: rgba(255, 255, 255, 0.8);
 
@@ -23,4 +24,22 @@ $highlighter: rgba(255, 255, 255, 0.8);
   color: $softlight;
   min-height: 50px;
   min-width: 100px;
+}
+
+@mixin square {
+  width: 60px;
+  height: 60px;
+  border-radius: 15px;
+  margin: 0 auto 1em auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h4 {
+    color: white;
+  }
+}
+
+@function shade($color) {
+  $endcolor: mix(black, $color, 30%);
+  @return (3px 3px 20px 0px rgba($endcolor, 0.5));
 }

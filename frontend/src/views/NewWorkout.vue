@@ -22,11 +22,11 @@
             id="input-2"
             type="number"
             min="0.00"
-            max="20.01"
+            max="100.01"
             v-model="form.points"
             required
             v-b-tooltip.click
-            title="Difficulty level from 0-20"
+            title="Difficulty level from 0-100"
           ></b-form-input>
         </b-form-group>
       </div>
@@ -38,9 +38,9 @@
         <b-form-textarea
           id="input-5"
           type="text"
-          rows="3"
           max-rows="6"
           v-b-tooltip.click
+          v-model="form.description"
           title="Enter a description of yout Workout"
         ></b-form-textarea>
       </b-form-group>
@@ -48,11 +48,11 @@
       <b-form-group id="input-group-6" label="add Timer:" label-for="input-6">
         <b-form-checkbox
           id="input-6"
-          v-model="checked"
+          v-model="form.has_timer"
           name="check-button"
           switch
         >
-          Timer: {{ checked }}
+          Timer: {{ form.has_timer }}
         </b-form-checkbox>
       </b-form-group>
 
@@ -112,13 +112,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+// import { mapActions } from "vuex";
 
 export default {
   name: "NewWorkout",
   data() {
     return {
-      checked: false,
       form: {
         name: "",
         points: "",
@@ -127,17 +126,16 @@ export default {
             name: "",
             quantity: ""
           }
-        ]
+        ],
+        description: "",
+        has_timer: false
       },
       index: "",
       show: true
     };
   },
-  computed: {
-    ...mapGetters(["NEW_WORKOUT"])
-  },
   methods: {
-    ...mapActions(["createWorkout"]),
+    // ...mapActions(["createWorkout"]),
     // adding a new input row
     addExercise() {
       let index = this.form.exercises.length - 1;
@@ -163,11 +161,20 @@ export default {
     },
     onSubmit(evt) {
       evt.preventDefault();
-      this.createWorkout(this.form);
-      // this.show = false;
-      // this.$refs["my-modal"].hide();
-      // alert("Your Workout " + this.form.name + " has been created!");
-      this.$router.push("/");
+
+      this.$store
+        .dispatch("CREATE_WORKOUT", this.form)
+        .then(() => {
+          this.$router.push("/workouts");
+        })
+        .catch(err => {
+          if (err.status == 500) {
+            alert("Workout was not created.");
+          }
+          // eslint-disable-next-line no-console
+          console.log(err);
+          this.$router.push("/workouts");
+        });
     },
     onReset(evt) {
       evt.preventDefault();
@@ -175,6 +182,8 @@ export default {
       this.form.name = "";
       this.form.points = "";
       this.form.exercises = [{ name: "", quantity: "" }];
+      this.form.description = "";
+      this.form.has_timer = false;
     }
   }
 };

@@ -12,7 +12,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item href="/">My Statiscics</b-nav-item>
+          <b-nav-item href="/stats">My Statiscics</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
           <b-nav-item href="/workouts">Workouts</b-nav-item>

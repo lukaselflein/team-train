@@ -1,23 +1,23 @@
 <template>
-  <div class="tab-container">
+  <b-card title="TEAM OVERVIEW" class="tab-container">
     <b-tabs
       align="center"
-      class="tab-nav"
-      active-nav-item-class="font-weight-bold"
+      class="tab"
+      active-nav-item-class="font-weight-bold text-dark"
     >
-      <UserOverview />
+      <UserRanking />
       <TeamOverview />
     </b-tabs>
-  </div>
+  </b-card>
 </template>
 
 <script>
-import UserOverview from "@/components/data-overview/userOverview.vue";
+import UserRanking from "@/components/data-list/userRanking.vue";
 import TeamOverview from "@/components/data-overview/teamOverview.vue";
 export default {
   name: "Statistic",
   components: {
-    UserOverview,
+    UserRanking,
     TeamOverview
   }
 };
@@ -27,8 +27,11 @@ export default {
 @import "../../mixins.scss";
 
 .tab-container {
-  .tab-nav {
-    @include background;
+  text-align: center;
+  padding-top: 1em;
+  margin-top: 3em;
+  .tab {
+    padding-top: 1em;
   }
 }
 </style>

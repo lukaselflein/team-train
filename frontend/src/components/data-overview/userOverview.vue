@@ -1,9 +1,10 @@
 <template>
   <div>
-    <b-tab title="My Training Data" active>
+    <b-tab title="Ranking" active>
       <UserData />
       <UserChart />
     </b-tab>
+    <b-card-footer>(dummy data)</b-card-footer>
   </div>
 </template>
 
@@ -20,4 +21,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+</style>

@@ -1,14 +1,11 @@
 <template>
   <div>
-    <b-card title="statistic">
-      <apexchart
-        type="bar"
-        height="200"
-        :options="options"
-        :series="series"
-      ></apexchart>
-      <b-card-footer>(dummy data)</b-card-footer>
-    </b-card>
+    <apexchart
+      type="bar"
+      height="200"
+      :options="options"
+      :series="series"
+    ></apexchart>
   </div>
 </template>
 

@@ -4,87 +4,61 @@
     <FilterButtons />
     <b-row>
       <b-card
-        sub-title="added by"
+        :sub-title="
+          'by' +
+            ' ' +
+            ALL_WORKOUTS[index].added_by +
+            ' on ' +
+            convertTime(ALL_WORKOUTS[index].time)
+        "
         class="cardy"
         v-for="(item, index) in ALL_WORKOUTS"
         :key="index"
       >
-        <b-row>
-          <p>{{ ALL_WORKOUTS[index].added_by }} at</p>
-          <p>{{ convertTime(ALL_WORKOUTS[index].time) }}</p>
-        </b-row>
         <div class="workout-title">
           <h4>{{ item.name }}</h4>
           <p>({{ item.points }} Points)</p>
+          <p>Description: {{ item.description }}</p>
         </div>
 
-        <div class="workout-content">
-          <div class="exercise-list">
-            <ul
-              v-for="(exercise, number) in ALL_WORKOUTS[index].exercises"
-              :key="number"
-            >
-              <li v-if="number <= 2">
-                - {{ exercise.name }} x {{ exercise.quantity }}
-              </li>
-            </ul>
-            <p
-              v-if="ALL_WORKOUTS[index].exercises.length > 2"
-              @click="showModal(item)"
-            >
-              ... show more
-            </p>
-          </div>
-          <div class="workout-btn">
-            <b-button
-              size="sm"
-              @click="startWorkout(item._id)"
-              class="mr-1"
-              variant="success"
-            >
-              Go to
-            </b-button>
-            <b-button
-              disabled
-              class="mr-1"
-              variant="info"
-              size="sm"
-              @click="nothing()"
-              >change
-            </b-button>
-            <b-button
-              size="sm"
-              @click="removeWorkout(item.id)"
-              class="mr-1"
-              variant="danger"
-            >
-              Delete
-            </b-button>
-          </div>
+        <div class="workout-btn">
+          <b-button
+            size="sm"
+            @click="startWorkout(item.id)"
+            class="mr-1"
+            variant="success"
+          >
+            Go to
+          </b-button>
+          <b-button
+            disabled
+            class="mr-1"
+            variant="info"
+            size="sm"
+            @click="nothing()"
+            >change
+          </b-button>
+          <b-button
+            size="sm"
+            @click="removeWorkout(item.id)"
+            class="mr-1"
+            variant="danger"
+          >
+            Delete
+          </b-button>
         </div>
       </b-card>
     </b-row>
-
-    <b-modal ref="my-modal" hide-footer title="Workout">
-      <h5>{{ modaldata.name }}</h5>
-      <ul v-for="(ex, index) in modaldata.exercises" :key="index">
-        <li>- {{ ex.name }} x {{ ex.quantity }}</li>
-      </ul>
-    </b-modal>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { /*mapActions,*/ mapGetters } from "vuex";
 import FilterButtons from "@/components/controls/filterButtons.vue";
 
 export default {
   name: "WorkoutList",
-  data() {
-    return {
-      modaldata: {}
-    };
-  },
+
   components: {
     FilterButtons
   },
@@ -92,46 +66,40 @@ export default {
     ...mapGetters(["ALL_WORKOUTS"])
   },
   mounted() {
-    // Set the initial number of items
-    this.totalRows = this.ALL_WORKOUTS.length;
+    this.$store("GET_ALL_WORKOUTS");
   },
   methods: {
-    ...mapActions(["getAllWorkouts", "getWorkout", "deleteWorkout"]),
-
+    // unix time convert
     convertTime(unix) {
       let timestamp = Date.parse(unix);
-      let newTime = new Date(timestamp * 1000);
+      let date = new Date(timestamp);
       const options = {
-        weekday: "long",
+        weekday: "short",
         year: "numeric",
-        month: "long",
-        day: "numeric"
+        month: "2-digit",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
       };
-
-      return newTime.toLocaleDateString("en-US", options);
-      // expected output: Donnerstag, 20. Dezember 2012
+      return date.toLocaleString("en-US", options);
     },
 
     startWorkout(id) {
       this.$router.push("/workouts/" + id);
     },
-    showModal(index) {
-      this.modaldata = index;
-      // alert(this.modaldata);
-      this.$refs["my-modal"].show();
-    },
-
     removeWorkout(id) {
-      /* eslint-disable-next-line*/
-      console.log(id);
-      this.deleteWorkout(id);
+      this.$store
+        .dispatch("DELETE_WORKOUT", id)
+        .then(() => {})
+        .catch(err => {
+          // alert("Workout was not deleted.");
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+      this.$router.push("/workouts");
+      // this.deleteWorkout(id);
       // // patch for state.workoutList undefined after creating new workout
-      // window.location.reload();
-      this.getAllWorkouts();
     }
-  },
-  created() {
-    this.getAllWorkouts();
   }
 };
 </script>
@@ -143,6 +111,9 @@ export default {
   padding-top: 1em;
   // text-align: center;
   margin: auto;
+  li {
+    list-style: none;
+  }
   .cardy {
     margin: 1em auto;
     min-width: 400px;

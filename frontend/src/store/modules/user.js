@@ -5,84 +5,117 @@ export default {
   state: {
     status: "",
     token: JSON.parse(localStorage.getItem("token")) || "",
-    user: JSON.parse(localStorage.getItem("userData")) || ""
+    user: JSON.parse(localStorage.getItem("user"))
   },
   getters: {
-    AUTH_STATUS: state => state.status,
-    IS_LOGGED_IN: state => !!state.token,
-    LOGGED_USER: state => state.user
+    AUTH_STATUS: state => {
+      return state.status;
+    },
+    IS_LOGGED_IN: state => {
+      return !!state.token;
+    },
+    LOGGED_USER: state => {
+      return state.user;
+    }
   },
   mutations: {
-    auth_request(state) {
+    AUTH_REQUEST(state) {
       state.status = "loading";
     },
-    signup_success(state, userData) {
+    SIGNUP_SUCCESS: state => {
       state.status = "success";
-      state.user = userData;
     },
-    auth_success(state, token) {
+    LOGIN_SUCCESS: (state, token) => {
       state.status = "success";
       state.token = token;
     },
-    logout(state) {
+    WHOAMI_SUCCESS(state, user) {
+      state.status = "success";
+      state.user = user;
+    },
+    LOGOUT_SUCCESS(state) {
       state.status = "";
       state.token = "";
     },
-    auth_error(state) {
+    AUTH_ERROR(state) {
       state.status = "error";
     }
   },
   actions: {
-    register({ commit }, userdata) {
-      let nm = userdata.username;
-      let em = userdata.email;
-      let pw = userdata.password;
+    REGISTER({ commit }, userdata) {
       return new Promise((resolve, reject) => {
-        commit("auth_request");
+        commit("AUTH_REQUEST");
         axios({
           url: "http://localhost:5000/signup",
-          data: { email: em, username: nm, password: pw },
-          method: "POST"
+          data: {
+            email: userdata.email,
+            username: userdata.username,
+            password: userdata.password
+          },
+          method: "POST",
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json"
+          }
         })
           .then(resp => {
-            const userData = resp.data;
-            localStorage.setItem("user", JSON.stringify(userData));
-            commit("signup_success", userData);
+            // const userData = resp.data;
+            commit("SIGNUP_SUCCESS");
             resolve(resp);
           })
           .catch(err => {
-            commit("auth_error");
+            commit("AUTH_ERROR");
             reject(err);
           });
       });
     },
-    login({ commit }, userdata) {
-      let em = userdata.email;
-
-      let pw = userdata.password;
-
+    LOGIN({ commit }, userdata) {
       return new Promise((resolve, reject) => {
-        commit("auth_request");
+        commit("AUTH_REQUEST");
         axios({
           url: "http://localhost:5000/login",
-          data: { email: em, password: pw },
+          data: { email: userdata.email, password: userdata.password },
           method: "POST"
         })
           .then(resp => {
-            const token = resp.data;
-            localStorage.setItem("token", JSON.stringify(token));
-            commit("auth_success", token);
+            localStorage.setItem("token", JSON.stringify(resp.data));
+            commit("LOGIN_SUCCESS", resp.data);
+            commit("SIGNUP_SUCCESS");
             resolve(resp);
           })
           .catch(err => {
-            commit("auth_error");
+            commit("AUTH_ERROR");
+            reject(err);
+          });
+      });
+    },
+    WHOAMI({ commit }) {
+      let token = JSON.parse(localStorage.getItem("token")).token;
+      /* eslint-disable-next-line*/
+      console.log(token);
+      return new Promise((resolve, reject) => {
+        commit("AUTH_REQUEST");
+        axios({
+          url: "http://localhost:5000/whoami",
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + token
+          }
+        })
+          .then(resp => {
+            localStorage.setItem("user", JSON.stringify(resp.data));
+            commit("WHOAMI_SUCCESS", resp.data);
+            resolve(resp);
+          })
+          .catch(err => {
+            commit("AUTH_ERROR");
             reject(err);
           });
       });
     },
     LOGOUT({ commit }) {
       return new Promise(resolve => {
-        commit("logout");
+        commit("LOGOUT_SUCCESS");
         localStorage.removeItem("token");
         delete axios.defaults.headers.common["Authorization"];
         resolve();

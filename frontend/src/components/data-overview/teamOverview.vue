@@ -1,33 +1,55 @@
 <template>
-  <div>
+  <div class="tab">
     <b-tab title="Team Data">
-      <b-card>
-        <h4>Team members</h4>
-        <div>
-          <b-button v-b-toggle.collapse-1 variant="primary"
-            >show members</b-button
-          >
-          <b-collapse id="collapse-1" class="mt-2">
-            <b-card>
-              <p class="card-text">(Members Listed)</p>
-            </b-card>
-          </b-collapse>
+      <b-col>
+        <p>MEMBERS</p>
+        <div id="sq_member">
+          <h4>12</h4>
         </div>
+      </b-col>
+      <b-card>
+        <b-row>
+          <b-col>
+            <b-form-input
+              id="input-none"
+              :state="null"
+              placeholder="e-mail"
+            ></b-form-input>
+          </b-col>
+          <b-col>
+            <b-button variant="success">invite</b-button>
+          </b-col>
+        </b-row>
+        <!-- member List -> delete member -->
+        <MemberList />
       </b-card>
-      <TeamTable />
     </b-tab>
   </div>
 </template>
 
 <script>
-import TeamTable from "@/components/data-detail/teamTable.vue";
+import MemberList from "@/components/data-list/memberList";
 
 export default {
   name: "TeamOverview",
   components: {
-    TeamTable
+    MemberList
   }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "../../mixins.scss";
+
+.tab {
+  margin-top: 1em;
+  #sq_member {
+    @include square;
+    background-color: $dark-title;
+    box-shadow: shade($dark-title);
+  }
+  .memberList {
+    text-align: left;
+  }
+}
+</style>

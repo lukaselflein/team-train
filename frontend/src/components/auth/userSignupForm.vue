@@ -89,10 +89,10 @@ export default {
       let password = this.password;
 
       this.$store
-        .dispatch("register", { username, email, password })
+        .dispatch("REGISTER", { username, email, password })
         .then(() => {
           this.$store
-            .dispatch("login", { email, password })
+            .dispatch("LOGIN", { email, password })
             .then(() => {
               this.$router.push("/");
             })

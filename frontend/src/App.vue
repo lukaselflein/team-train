@@ -56,14 +56,28 @@ export default {
     min-width: 100vw;
 
     #app {
-      padding: 3em 1em 1em 1em;
+      padding: 1em 2em 0em 2em;
       h1,
       h2,
       h3,
       h4,
       h5 {
         font-weight: bolder;
+      }
+      h1 {
         color: $dark;
+      }
+      h2 {
+        color: $dark-title;
+      }
+      h3 {
+        color: $light-title;
+      }
+      h4 {
+        color: $dark-title;
+      }
+      h5 {
+        color: $light-title;
       }
       p {
         color: $dark;
@@ -72,8 +86,10 @@ export default {
       input {
         border-radius: 25px;
         border: 1px solid $dark-title;
-        // box-shadow: inset 0px 0px 10px $light-title;
         padding-left: 1.5em;
+      }
+      a {
+        color: $grey;
       }
       button {
         border-radius: 25px;

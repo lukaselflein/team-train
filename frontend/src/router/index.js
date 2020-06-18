@@ -6,8 +6,9 @@ import Workout from "@/views/Workout.vue";
 import notFound from "@/views/notFound.vue";
 import Login from "@/components/auth/userLogin.vue";
 import Signup from "@/components/auth/userSignup.vue";
-import Exercise from "@/components/data-detail/exercise.vue";
+import Exercise from "@/views/Exercise.vue";
 import NewWorkout from "@/views/NewWorkout.vue";
+import Statistic from "@/components/data-overview/statistic.vue";
 
 Vue.use(Router);
 
@@ -66,7 +67,14 @@ let router = new Router({
         requiresAuth: true
       }
     },
-
+    {
+      path: "/stats",
+      name: "Statistic",
+      component: Statistic,
+      meta: {
+        requiresAuth: true
+      }
+    },
     {
       path: "/*",
       component: notFound

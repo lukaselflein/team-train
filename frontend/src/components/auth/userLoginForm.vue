@@ -57,7 +57,7 @@ export default {
 
       this.$store
         // call action from store "login"
-        .dispatch("login", { email, password })
+        .dispatch("LOGIN", { email, password })
         .then(() => {
           this.$router.push("/");
         })

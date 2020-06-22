@@ -1,8 +1,10 @@
 <template>
-  <div>
-    <b-list-group v-for="(team, index) in LOGGED_USER" :key="index">
-      <!-- <b-list-group-item>{{ workout }}</b-list-group-item> -->
-    </b-list-group>
+  <div v-if="LOGGED_USER.team != null">
+    <h4>{{ LOGGED_USER.team }}</h4>
+  </div>
+  <div v-else>
+    <p>Not part of a team yet.</p>
+    <b-button>Create Team</b-button>
   </div>
 </template>
 
@@ -17,4 +19,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped></style>

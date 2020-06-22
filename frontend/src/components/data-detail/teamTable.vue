@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-table striped :items="items" :fields="fields"></b-table>
+    <b-table :items="items" :fields="fields" id="tile"></b-table>
   </div>
 </template>
 
@@ -22,4 +22,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@import "../../mixins.scss";
+
+#tile {
+  @include cardstyle;
+  background-color: white;
+}
+</style>

@@ -1,30 +1,31 @@
 <template>
-  <div class="tab">
-    <b-tab title="Team Data">
-      <b-col>
-        <p>MEMBERS</p>
-        <div id="sq_member">
-          <h4>12</h4>
-        </div>
-      </b-col>
-      <b-card>
-        <b-row>
-          <b-col>
+  <b-tab title="Team Data" class="teamTab">
+    <b-col>
+      <p>MEMBERS</p>
+      <div id="sq_member">
+        <h4>12</h4>
+      </div>
+    </b-col>
+    <b-card class="teamCard" header-tag="header">
+      <template v-slot:header>
+        <b-row id="invitebar">
+          <b-col class="item1">
             <b-form-input
               id="input-none"
               :state="null"
               placeholder="e-mail"
             ></b-form-input>
           </b-col>
-          <b-col>
+
+          <b-col class="item2">
             <b-button variant="success">invite</b-button>
           </b-col>
         </b-row>
-        <!-- member List -> delete member -->
-        <MemberList />
-      </b-card>
-    </b-tab>
-  </div>
+      </template>
+      <!-- member List -> delete member -->
+      <MemberList />
+    </b-card>
+  </b-tab>
 </template>
 
 <script>
@@ -41,15 +42,20 @@ export default {
 <style lang="scss" scoped>
 @import "../../mixins.scss";
 
-.tab {
-  margin-top: 1em;
+.teamTab {
+  margin: 1em 0 0 0;
   #sq_member {
-    @include square;
-    background-color: $dark-title;
-    box-shadow: shade($dark-title);
+    @include square($dark-title);
   }
-  .memberList {
-    text-align: left;
+  #invitebar {
+    display: flex;
+    .item1 {
+      flex-grow: 4;
+    }
+  }
+  .teamCard {
+    margin-top: 2em;
+    @include cardstyle;
   }
 }
 </style>

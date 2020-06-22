@@ -1,29 +1,36 @@
 <template>
   <div class="exercise">
-    <router-link to="/workouts" id="backLink">back to workouts</router-link>
-    <b-card
-      id="outerCard"
-      :title="ONE_WORKOUT.name"
-      :sub-title="'points: ' + ONE_WORKOUT.points + ' / 100'"
-      ><div>
-        <b-card header="description" id="firstCard">
-          <p>{{ ONE_WORKOUT.description }}</p>
+    <BackBtn />
+    <b-card id="exercise-card" :title="ONE_WORKOUT.name"
+      ><h6><Time v-bind:time="ONE_WORKOUT.time" /></h6>
+      <p>by {{ ONE_WORKOUT.added_by }}</p>
+
+      <b-row>
+        <b-col>
+          <h6>POINTS</h6>
+          <div class="workout-points">
+            <h4>{{ ONE_WORKOUT.points }}</h4>
+          </div>
+        </b-col>
+        <b-col>
+          <h6>ROUNDS</h6>
+          <div class="workout-rounds">
+            <h4>{{ ONE_WORKOUT.points }}</h4>
+          </div>
+        </b-col>
+      </b-row>
+
+      <div>
+        <h6>DESCRIPTION</h6>
+        <p>{{ ONE_WORKOUT.description }}</p>
+        <b-card sub-title="exercises" id="exerciseListCard">
+          <ExerciseList class="exerciseList" v-bind:id="id" />
+          <b-button v-b-modal.modal-workout>start workout</b-button>
         </b-card>
-        <b-card header="exercises" id="sndCard">
-          <!-- {{ workoutDetail }} -->
-          <ul
-            v-for="(item, index) in ONE_WORKOUT.exercises"
-            :key="index"
-            class="ex-list"
-          >
-            <li>
-              <p>{{ index + 1 }}. {{ item.quantity }}x {{ item.name }}</p>
-            </li>
-          </ul>
-        </b-card>
-        <b-button v-b-modal.modal-workout variant="primary"
-          >start workout</b-button
-        >
+
+        <CreatorTools
+          v-bind:creatorTools="[ONE_WORKOUT.added_by, ONE_WORKOUT.id]"
+        />
       </div>
     </b-card>
 
@@ -34,11 +41,19 @@
 <script>
 import { mapGetters } from "vuex";
 import WorkoutModal from "@/components/layout/modalWorkout";
+import BackBtn from "@/components/controls/backBtn";
+import Time from "@/components/controls/timeConvert";
+import ExerciseList from "@/components/data-list/exerciseList";
+import CreatorTools from "@/components/controls/creator";
 
 export default {
   name: "Exercise",
   components: {
-    WorkoutModal
+    WorkoutModal,
+    BackBtn,
+    Time,
+    ExerciseList,
+    CreatorTools
   },
   data() {
     return {
@@ -57,34 +72,26 @@ export default {
 <style scoped lang="scss">
 @import "../mixins.scss";
 
+.workout-points {
+  @include square($alarm-title);
+}
+.workout-rounds {
+  @include square($highlight);
+}
 .exercise {
+  margin-top: 2em;
   padding: 1em;
-  #backLink {
-    text-decoration: underline;
-    cursor: pointer;
-    color: $alarm-title;
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-  #outerCard {
+  #exercise-card {
+    @include cardstyle;
     text-align: center;
     margin: 1em auto;
   }
-  #firstCard,
-  #sndCard {
+  #exerciseListCard {
     color: $dark-title;
     margin: 1em 0;
-
-    ul {
-      list-style: none;
-      .ex-list {
-        margin-left: auto;
-        margin-right: auto;
-        text-align: left;
-      }
-    }
-    p {
-      text-align: left;
+    @include cardstyle;
+    .exerciseList {
+      margin-top: 1.5em;
     }
   }
   button {
@@ -92,17 +99,17 @@ export default {
   }
 }
 @media only screen and (min-width: 500px) {
-  #outerCard {
+  #exercise-card {
     max-width: 90%;
   }
 }
 @media only screen and (min-width: 700px) {
-  #outerCard {
+  #exercise-card {
     max-width: 80%;
   }
 }
 @media only screen and (min-width: 900px) {
-  #outerCard {
+  #exercise-card {
     max-width: 60%;
   }
 }

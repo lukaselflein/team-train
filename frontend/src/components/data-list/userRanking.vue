@@ -1,9 +1,8 @@
 <template>
   <div>
-    <b-tab title="Ranking" active>
+    <b-tab title="Ranking" class="uppertab" active>
       <TeamTable class="tab" />
     </b-tab>
-    <!-- <b-card-footer>(dummy data)</b-card-footer> -->
   </div>
 </template>
 
@@ -21,5 +20,6 @@ export default {
 <style scoped>
 .tab {
   margin-top: 1em;
+  border-radius: 20px;
 }
 </style>

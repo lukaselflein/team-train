@@ -2,8 +2,9 @@ $dark: rgb(11, 31, 58);
 $dark-title: rgb(119, 118, 188);
 $light-title: rgb(205, 199, 229);
 $alarm-title: rgb(255, 103, 77);
-$highlight: rgb(255, 236, 81);
+$highlight: rgb(248, 209, 34);
 $softlight: rgb(255, 251, 251);
+$somegreen: rgb(50, 126, 88);
 $grey: rgb(120, 112, 124);
 
 $highlighter: rgba(255, 255, 255, 0.8);
@@ -26,7 +27,14 @@ $highlighter: rgba(255, 255, 255, 0.8);
   min-width: 100px;
 }
 
-@mixin square {
+@mixin btnstyle($color) {
+  box-shadow: 3px 3px 15px 0px rgba(shade($color));
+  border-radius: 15px;
+  max-width: 120px;
+  background-color: $color;
+}
+
+@mixin square($color) {
   width: 60px;
   height: 60px;
   border-radius: 15px;
@@ -34,9 +42,16 @@ $highlighter: rgba(255, 255, 255, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: $color;
+  box-shadow: shade($color);
   h4 {
     color: white;
   }
+}
+
+@mixin cardstyle {
+  box-shadow: 3px 3px 15px 0px rgba($grey, 0.4);
+  border-radius: 20px;
 }
 
 @function shade($color) {

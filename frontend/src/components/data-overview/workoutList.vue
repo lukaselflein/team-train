@@ -1,104 +1,64 @@
 <template>
-  <div id="content">
-    <h1>Workouts</h1>
+  <b-card id="trainingCard" title="TRAINING">
     <FilterButtons />
     <b-row>
       <b-card
-        :sub-title="
-          'by' +
-            ' ' +
-            ALL_WORKOUTS[index].added_by +
-            ' on ' +
-            convertTime(ALL_WORKOUTS[index].time)
-        "
-        class="cardy"
+        class="workoutcard"
         v-for="(item, index) in ALL_WORKOUTS"
         :key="index"
       >
-        <div class="workout-title">
-          <h4>{{ item.name }}</h4>
-          <p>({{ item.points }} Points)</p>
-          <p>Description: {{ item.description }}</p>
+        <div>
+          <Time v-bind:time="item.time" />
+          <!-- <h6>{{ convertTime(item.time) }}</h6> -->
+          <h5>{{ item.name }}</h5>
+          <h6>by {{ item.added_by }}</h6>
         </div>
 
-        <div class="workout-btn">
-          <b-button
-            size="sm"
-            @click="startWorkout(item.id)"
-            class="mr-1"
-            variant="success"
-          >
-            Go to
-          </b-button>
-          <b-button
-            disabled
-            class="mr-1"
-            variant="info"
-            size="sm"
-            @click="nothing()"
-            >change
-          </b-button>
-          <b-button
-            size="sm"
-            @click="removeWorkout(item.id)"
-            class="mr-1"
-            variant="danger"
-          >
-            Delete
-          </b-button>
-        </div>
+        <b-row>
+          <b-col>
+            <h6>POINTS</h6>
+            <div class="workout-points">
+              <h4>{{ item.points }}</h4>
+            </div>
+          </b-col>
+          <b-col>
+            <div class="go-to" @click="startWorkout(item.id)">
+              <h4>show</h4>
+            </div>
+          </b-col>
+          <b-col>
+            <h6>ROUNDS</h6>
+            <div class="workout-rounds">
+              <h4>{{ item.points }}</h4>
+            </div>
+          </b-col>
+        </b-row>
       </b-card>
     </b-row>
-  </div>
+  </b-card>
 </template>
 
 <script>
 import { /*mapActions,*/ mapGetters } from "vuex";
 import FilterButtons from "@/components/controls/filterButtons.vue";
+import Time from "@/components/controls/timeConvert";
 
 export default {
   name: "WorkoutList",
 
   components: {
-    FilterButtons
+    FilterButtons,
+    Time
   },
   computed: {
     ...mapGetters(["ALL_WORKOUTS"])
   },
   mounted() {
-    this.$store("GET_ALL_WORKOUTS");
+    this.$store.dispatch("GET_ALL_WORKOUTS");
   },
   methods: {
-    // unix time convert
-    convertTime(unix) {
-      let timestamp = Date.parse(unix);
-      let date = new Date(timestamp);
-      const options = {
-        weekday: "short",
-        year: "numeric",
-        month: "2-digit",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-      };
-      return date.toLocaleString("en-US", options);
-    },
-
     startWorkout(id) {
       this.$router.push("/workouts/" + id);
-    },
-    removeWorkout(id) {
-      this.$store
-        .dispatch("DELETE_WORKOUT", id)
-        .then(() => {})
-        .catch(err => {
-          // alert("Workout was not deleted.");
-          // eslint-disable-next-line no-console
-          console.log(err);
-        });
-      this.$router.push("/workouts");
-      // this.deleteWorkout(id);
-      // // patch for state.workoutList undefined after creating new workout
     }
   }
 };
@@ -106,24 +66,40 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../mixins.scss";
-#content {
-  text-align: left;
+#trainingCard {
+  text-align: center;
   padding-top: 1em;
-  // text-align: center;
-  margin: auto;
+  @include cardstyle;
+  margin: 4em -0.5em 0 -1em;
   li {
     list-style: none;
   }
-  .cardy {
+  .workoutcard {
+    @include cardstyle;
     margin: 1em auto;
-    min-width: 400px;
-    max-height: 400px;
+    width: 400px;
+    max-height: 250px;
+
+    .workout-points {
+      @include square($alarm-title);
+    }
+    .workout-rounds {
+      @include square($highlight);
+    }
+    .go-to {
+      @include square($somegreen);
+      margin-top: 1em;
+      padding: 0.5em;
+      height: 70%;
+      width: 100%;
+      cursor: pointer;
+    }
   }
 }
 
 @media only screen and (min-width: 700px) {
-  #content {
-    .cardy {
+  #trainingCard {
+    .workoutcard {
       display: grid;
       grid-template-columns: repeat(1fr);
       grid-template-rows: repeat(1fr);

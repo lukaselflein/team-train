@@ -1,5 +1,5 @@
 <template>
-  <b-card title="TEAM OVERVIEW" class="tab-container">
+  <b-card title="TEAM OVERVIEW" class="overviewTab">
     <b-tabs
       align="center"
       class="tab"
@@ -26,10 +26,11 @@ export default {
 <style lang="scss" scoped>
 @import "../../mixins.scss";
 
-.tab-container {
+.overviewTab {
+  @include cardstyle;
   text-align: center;
   padding-top: 1em;
-  margin-top: 3em;
+  margin-top: 4em;
   .tab {
     padding-top: 1em;
   }

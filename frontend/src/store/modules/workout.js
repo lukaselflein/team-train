@@ -4,8 +4,8 @@ export default {
   strict: true,
   state: {
     status: "",
-    workoutList: [], //[JSON.parse(localStorage.getItem("allWorkouts"))],
-    workout: "" //JSON.parse(localStorage.getItem("oneWorkout"))
+    workoutList: JSON.parse(localStorage.getItem("allWorkouts")),
+    workout: JSON.parse(localStorage.getItem("oneWorkout"))
   },
   getters: {
     ALL_WORKOUTS: state => state.workoutList,
@@ -29,7 +29,11 @@ export default {
     },
     WORKOUT_REMOVE(state, workoutId) {
       state = "success";
-      state.workoutList.filter(workout => workout.id !== workoutId);
+      /* eslint-disable-next-line*/
+      console.log(state.workoutList);
+      /* eslint-disable-next-line*/
+      console.log(state.workoutList.workout + " aaaaand id " + workoutId);
+      // state.workoutList.filter(workout => workout.id !== workoutId);
     },
     WORKOUT_ERROR(state) {
       state.status = "error";
@@ -47,25 +51,12 @@ export default {
           method: "GET"
         })
           .then(resp => {
-            let token = localStorage.getItem("token");
-
-            var base64Url = token.split(".")[1];
-            var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-            var jsonPayload = decodeURIComponent(
-              atob(base64)
-                .split("")
-                .map(function(c) {
-                  return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-                })
-                .join("")
-            );
-
-            let newToken = JSON.parse(jsonPayload);
+            let workouts = resp.data;
 
             /* eslint-disable-next-line*/
-            console.log(newToken);
-            // localStorage.setItem("allWorkouts", JSON.stringify(resp.data));
-            commit("WORKOUT_GETALL", resp.data);
+            console.log(workouts);
+            localStorage.setItem("allWorkouts", JSON.stringify(workouts));
+            commit("WORKOUT_GETALL", workouts);
             resolve(resp);
           })
           .catch(err => {
@@ -87,10 +78,10 @@ export default {
         })
           .then(resp => {
             let workoutItem = resp.data;
-            // /* eslint-disable-next-line*/
-            // console.log(workoutItem);
+            /* eslint-disable-next-line*/
+            console.log(workoutItem);
             commit("WORKOUT_GET_SUCCESS", workoutItem);
-            // localStorage.setItem("oneWorkout", JSON.stringify(workoutItem));
+            localStorage.setItem("oneWorkout", JSON.stringify(workoutItem));
             resolve(resp);
           })
           .catch(err => {
@@ -171,7 +162,6 @@ export default {
     DELETE_WORKOUT({ commit }, workoutId) {
       return new Promise((resolve, reject) => {
         let token = JSON.parse(localStorage.getItem("token")).token;
-
         commit("WORKOUT_REQUEST");
         axios({
           url: `http://localhost:5000/workouts/${workoutId}`,
@@ -179,6 +169,8 @@ export default {
           headers: { Authorization: "Bearer " + token }
         })
           .then(resp => {
+            /* eslint-disable-next-line*/
+            console.log(resp.data);
             commit("WORKOUT_REMOVE", workoutId);
             resolve(resp);
           })
@@ -189,7 +181,6 @@ export default {
             //   alert("You can only delete workouts you created!");
             // }
             commit("WORKOUT_ERROR");
-
             reject(err);
           });
       });

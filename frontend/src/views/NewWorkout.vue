@@ -112,6 +112,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 // import { mapActions } from "vuex";
 
 export default {
@@ -133,6 +134,9 @@ export default {
       index: "",
       show: true
     };
+  },
+  computed: {
+    ...mapActions(["CREATE_WORKOUT"])
   },
   methods: {
     // ...mapActions(["createWorkout"]),

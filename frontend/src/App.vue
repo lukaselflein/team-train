@@ -56,7 +56,7 @@ export default {
     min-width: 100vw;
 
     #app {
-      padding: 1em 2em 0em 2em;
+      padding: 1em 1em 0em 1em;
       h1,
       h2,
       h3,
@@ -78,6 +78,9 @@ export default {
       }
       h5 {
         color: $light-title;
+      }
+      h6 {
+        color: $grey;
       }
       p {
         color: $dark;

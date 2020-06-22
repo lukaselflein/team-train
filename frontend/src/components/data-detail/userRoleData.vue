@@ -1,8 +1,12 @@
 <template>
   <div>
-    <b-list-group v-for="(role, index) in LOGGED_USER" :key="index">
-      <!-- <b-list-group-item>{{ role }}</b-list-group-item> -->
-    </b-list-group>
+    <p>ROLE</p>
+    <div id="sq_role">
+      <div v-if="LOGGED_USER.role">
+        <h4>{{ LOGGED_USER.role }}</h4>
+      </div>
+      <div v-else><h4>no role</h4></div>
+    </div>
   </div>
 </template>
 
@@ -18,4 +22,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+@import "../../mixins.scss";
+
+#sq_role {
+  @include square($light-title);
+  width: 100%;
+}
+</style>

@@ -19,7 +19,6 @@
         img-width="1024"
       >
         <b-carousel-slide
-          :background="blue"
           id="slides"
           v-for="(item, index) in ONE_WORKOUT.exercises"
           :key="index"
@@ -91,7 +90,6 @@ export default {
   min-height: 100%;
   #slides {
     min-height: 500px;
-    background-color: blue;
   }
 }
 </style>

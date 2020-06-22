@@ -1,9 +1,6 @@
 <template>
   <div class="register">
-    <!-- <b-card class="card"> -->
-
     <AuthForm />
-    <!-- </b-card> -->
   </div>
 </template>
 

@@ -3,7 +3,7 @@
     <b-col>
       <p>MEMBERS</p>
       <div id="sq_member">
-        <h4>12</h4>
+        <h3>12</h3>
       </div>
     </b-col>
     <b-card class="teamCard" header-tag="header">

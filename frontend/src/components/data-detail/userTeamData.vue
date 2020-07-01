@@ -1,10 +1,11 @@
 <template>
+  <!-- Landing page team data -->
   <div v-if="LOGGED_USER.team != null">
-    <h4>{{ LOGGED_USER.team }}</h4>
+    <h3>{{ LOGGED_USER.team }}</h3>
   </div>
   <div v-else>
     <p>Not part of a team yet.</p>
-    <b-button>Create Team</b-button>
+    <b-button class="buttonstyle">Create Team</b-button>
   </div>
 </template>
 
@@ -19,4 +20,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "../../mixins.scss";
+.buttonstyle {
+  @include btnstyle($dark-title);
+}
+</style>

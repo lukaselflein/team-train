@@ -5,7 +5,7 @@
       :title="ONE_WORKOUT.name"
       no-close-on-backdrop
       no-close-on-esc
-      title-tag="h4"
+      title-tag="h3"
       hide-header-close
     >
       <!-- body of modal -->

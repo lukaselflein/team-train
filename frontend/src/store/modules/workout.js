@@ -25,6 +25,8 @@ export default {
     },
     WORKOUT_CREATE_SUCCESS(state, payload) {
       state = "success";
+      /* eslint-disable-next-line*/
+      console.log(state.workoutList);
       state.workoutList.push(payload);
     },
     WORKOUT_REMOVE(state, workoutId) {

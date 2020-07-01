@@ -9,13 +9,13 @@
         <b-col>
           <h6>POINTS</h6>
           <div class="workout-points">
-            <h4>{{ ONE_WORKOUT.points }}</h4>
+            <h3>{{ ONE_WORKOUT.points }}</h3>
           </div>
         </b-col>
         <b-col>
           <h6>ROUNDS</h6>
           <div class="workout-rounds">
-            <h4>{{ ONE_WORKOUT.points }}</h4>
+            <h3>{{ ONE_WORKOUT.points }}</h3>
           </div>
         </b-col>
       </b-row>

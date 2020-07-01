@@ -3,9 +3,9 @@
     <p>ROLE</p>
     <div id="sq_role">
       <div v-if="LOGGED_USER.role">
-        <h4>{{ LOGGED_USER.role }}</h4>
+        <h3>{{ LOGGED_USER.role }}</h3>
       </div>
-      <div v-else><h4>no role</h4></div>
+      <div v-else><h3>no role</h3></div>
     </div>
   </div>
 </template>

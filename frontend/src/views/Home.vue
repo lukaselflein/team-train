@@ -79,7 +79,7 @@ export default {
 
     .cards {
       margin: 2em auto;
-      @include cardstyle;
+      @include cardplain;
     }
     a {
       text-decoration: underline;

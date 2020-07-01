@@ -2,7 +2,7 @@
   <div>
     <p>POSITION</p>
     <div id="sq_rank">
-      <h4>#1</h4>
+      <h3>#1</h3>
     </div>
   </div>
 </template>

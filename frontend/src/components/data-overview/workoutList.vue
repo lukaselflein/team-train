@@ -18,18 +18,18 @@
           <b-col>
             <h6>POINTS</h6>
             <div class="workout-points">
-              <h4>{{ item.points }}</h4>
+              <h3>{{ item.points }}</h3>
             </div>
           </b-col>
           <b-col>
             <div class="go-to" @click="startWorkout(item.id)">
-              <h4>show</h4>
+              <h3>show</h3>
             </div>
           </b-col>
           <b-col>
             <h6>ROUNDS</h6>
             <div class="workout-rounds">
-              <h4>{{ item.points }}</h4>
+              <h3>{{ item.points }}</h3>
             </div>
           </b-col>
         </b-row>

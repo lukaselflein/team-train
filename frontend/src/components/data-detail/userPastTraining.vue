@@ -2,14 +2,24 @@
   <div>
     <p>PAST TRAININGS</p>
     <div id="sq_past">
-      <h4>14</h4>
+      <div v-if="USER_HISTORY">
+        <h3>{{ USER_HISTORY }}</h3>
+      </div>
+      <div v-else>
+        <h3>0</h3>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  name: "UserPastTraining"
+  name: "UserPastTraining",
+  computed: {
+    ...mapGetters(["USER_HISTORY"])
+  }
 };
 </script>
 

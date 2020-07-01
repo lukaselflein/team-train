@@ -36,7 +36,7 @@ export default {
 
 <style lang="scss">
 @import "./mixins.scss";
-
+// default stylings for elements, fonts and background
 * {
   margin: 0;
   padding: 0;
@@ -65,26 +65,32 @@ export default {
         font-weight: bolder;
       }
       h1 {
+        font-size: 2rem;
         color: $dark;
       }
       h2 {
+        font-size: 1.6rem;
         color: $dark-title;
       }
       h3 {
+        font-size: 1.4rem;
         color: $light-title;
       }
       h4 {
+        font-size: 1.8rem;
         color: $dark-title;
       }
       h5 {
+        font-size: 1.2rem;
         color: $light-title;
       }
       h6 {
-        color: $grey;
+        font-size: 1rem;
+        color: $greydark;
       }
       p {
         color: $dark;
-        font-size: 1em;
+        font-size: 1rem;
       }
       input {
         border-radius: 25px;
@@ -92,13 +98,13 @@ export default {
         padding-left: 1.5em;
       }
       a {
-        color: $grey;
+        color: $greydark;
       }
       button {
-        border-radius: 25px;
+        border-radius: 15px;
         border: none;
-        background-color: none;
-        opacity: 1;
+        // background-color: none;
+        // opacity: 1;
       }
       background-color: rgba($softlight, 0.5);
       background: fixed center center cover;

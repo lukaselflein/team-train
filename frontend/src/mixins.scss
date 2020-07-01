@@ -1,11 +1,12 @@
-$dark: rgb(11, 31, 58);
-$dark-title: rgb(119, 118, 188);
-$light-title: rgb(205, 199, 229);
-$alarm-title: rgb(255, 103, 77);
-$highlight: rgb(248, 209, 34);
-$softlight: rgb(255, 251, 251);
-$somegreen: rgb(50, 126, 88);
-$grey: rgb(120, 112, 124);
+$dark: rgba(11, 31, 58, 1);
+$dark-title: rgba(119, 118, 188, 1);
+$light-title: rgba(205, 199, 229, 1);
+$alarm-title: rgba(255, 103, 77, 1);
+$highlight: rgba(248, 209, 34, 1);
+$softlight: rgba(255, 251, 251, 1);
+$somegreen: rgba(50, 126, 88, 1);
+$greylight: rgba(219, 218, 218, 1);
+$greydark: rgb(138, 136, 136);
 
 $highlighter: rgba(255, 255, 255, 0.8);
 
@@ -28,15 +29,17 @@ $highlighter: rgba(255, 255, 255, 0.8);
 }
 
 @mixin btnstyle($color) {
-  box-shadow: 3px 3px 15px 0px rgba(shade($color));
-  border-radius: 15px;
-  max-width: 120px;
+  box-shadow: (shade($color));
+  border-radius: 0px;
+  // max-width: 130px;
+  height: 40px;
   background-color: $color;
+  margin-bottom: 2em;
 }
 
 @mixin square($color) {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 15px;
   margin: 0 auto 1em auto;
   display: flex;
@@ -44,13 +47,18 @@ $highlighter: rgba(255, 255, 255, 0.8);
   align-items: center;
   background-color: $color;
   box-shadow: shade($color);
-  h4 {
+  h3 {
     color: white;
   }
 }
 
 @mixin cardstyle {
-  box-shadow: 3px 3px 15px 0px rgba($grey, 0.4);
+  box-shadow: 3px 3px 15px 0px rgba($greydark, 0.4);
+  border-radius: 20px;
+}
+
+@mixin cardplain {
+  border: $greylight 2px solid;
   border-radius: 20px;
 }
 

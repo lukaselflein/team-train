@@ -1,5 +1,5 @@
 <template>
-  <div class="navigation">
+  <div class="navigation" id="nav-coll">
     <b-navbar fixed="top" toggleable="sm" small type="light" variant="light">
       <b-navbar-brand href="/">Train</b-navbar-brand>
 
@@ -12,7 +12,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item href="/stats">My Statiscics</b-nav-item>
+          <b-nav-item href="/stats">Statiscics</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
           <b-nav-item href="/workouts">Workouts</b-nav-item>

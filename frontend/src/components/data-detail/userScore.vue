@@ -3,8 +3,8 @@
     <p>SCORE</p>
 
     <div id="sq_score">
-      <div v-if="USER_SCORE">
-        <h3>{{ USER_SCORE }}</h3>
+      <div v-if="USER_SCORE.score">
+        <h3>{{ USER_SCORE.score }}</h3>
       </div>
       <div v-else><h3>0</h3></div>
     </div>
@@ -18,6 +18,9 @@ export default {
   name: "UserScore",
   computed: {
     ...mapGetters(["USER_SCORE"])
+  },
+  mounted() {
+    this.$store.dispatch("GET_SCORE");
   }
 };
 </script>

@@ -8,7 +8,7 @@ $somegreen: rgba(50, 126, 88, 1);
 $greylight: rgba(219, 218, 218, 1);
 $greydark: rgb(138, 136, 136);
 
-$highlighter: rgba(255, 255, 255, 0.8);
+$highlighter: rgba(255, 255, 255, 0.4);
 
 @mixin background {
   padding: 1em;
@@ -34,13 +34,13 @@ $highlighter: rgba(255, 255, 255, 0.8);
   // max-width: 130px;
   height: 40px;
   background-color: $color;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
 }
 
 @mixin square($color) {
-  width: 50px;
-  height: 50px;
-  border-radius: 15px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   margin: 0 auto 1em auto;
   display: flex;
   justify-content: center;
@@ -48,6 +48,7 @@ $highlighter: rgba(255, 255, 255, 0.8);
   background-color: $color;
   box-shadow: shade($color);
   h3 {
+    margin: auto;
     color: white;
   }
 }
@@ -58,8 +59,15 @@ $highlighter: rgba(255, 255, 255, 0.8);
 }
 
 @mixin cardplain {
-  border: $greylight 2px solid;
+  // border: $greylight 2px solid;
   border-radius: 20px;
+  box-shadow: 0 0 15px 0px rgba($greydark, 0.4);
+}
+
+@mixin centralPosition {
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @function shade($color) {

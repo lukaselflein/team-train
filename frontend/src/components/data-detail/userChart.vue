@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="chart">
     <apexchart
       type="bar"
       height="200"
@@ -53,8 +53,15 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    this.$store.dispatch("GET_HISTORY");
   }
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+#class {
+  margin: 0;
+}
+</style>

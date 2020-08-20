@@ -9,7 +9,7 @@
         :state="validateNewName"
         id="new-user"
       ></b-input>
-      <b-form-invalid-feedback :state="validateNewName"
+      <b-form-invalid-feedback class="feedback" :state="validateNewName"
         >Your user Name must be 4-12 characters long.</b-form-invalid-feedback
       >
       <b-form-valid-feedback :state="validateNewName"></b-form-valid-feedback>
@@ -28,7 +28,7 @@
         :state="validatePassword"
         id="feedback-password"
       ></b-input>
-      <b-form-invalid-feedback :state="validatePassword"
+      <b-form-invalid-feedback class="feedback" :state="validatePassword"
         >Your password must be 6-12 characters long.</b-form-invalid-feedback
       >
       <b-form-valid-feedback :state="validatePassword"></b-form-valid-feedback>
@@ -40,11 +40,12 @@
         :state="validatePasswordR"
         id="repeat-password"
       ></b-input>
-      <b-form-invalid-feedback :state="validatePasswordR"
+      <b-form-invalid-feedback class="feedback" :state="validatePasswordR"
         >Repeated password does not match password.</b-form-invalid-feedback
       >
       <b-form-valid-feedback :state="validatePasswordR"></b-form-valid-feedback>
     </b-form>
+
     <b-button
       id="btn-signin"
       :disabled="!validateNewName || !validatePassword || !validatePasswordR"
@@ -97,11 +98,11 @@ export default {
               this.$router.push("/");
             })
             .catch(err => {
-              alert("Ups! Etwas ist schiefgelaufen.\n" + err);
+              alert("Ups! Die Registrierung hat nicht geklappt.\n" + err);
             });
         })
         .catch(err => {
-          alert("Ups! Etwas ist schiefgelaufen.\n" + err);
+          alert("Weiterleitung zum Login gescheitert.\n" + err);
         });
     }
   }
@@ -114,6 +115,10 @@ export default {
 .authentification {
   @include background;
 
+  .feedback {
+    padding: 0 1em;
+    text-align: left;
+  }
   #registerForm {
     padding: 1em 0;
     input {

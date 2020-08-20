@@ -25,8 +25,10 @@ export default {
     },
     WORKOUT_CREATE_SUCCESS(state, payload) {
       state = "success";
-      /* eslint-disable-next-line*/
-      console.log(state.workoutList);
+      state.workoutList.push(payload);
+    },
+    WORKOUT_CHANGE_SUCCESS(state, payload) {
+      state = "success";
       state.workoutList.push(payload);
     },
     WORKOUT_REMOVE(state, workoutId) {
@@ -35,7 +37,7 @@ export default {
       console.log(state.workoutList);
       /* eslint-disable-next-line*/
       console.log(state.workoutList.workout + " aaaaand id " + workoutId);
-      // state.workoutList.filter(workout => workout.id !== workoutId);
+      state.workoutList.filter(workout => workout.id !== workoutId);
     },
     WORKOUT_ERROR(state) {
       state.status = "error";
@@ -54,9 +56,6 @@ export default {
         })
           .then(resp => {
             let workouts = resp.data;
-
-            /* eslint-disable-next-line*/
-            console.log(workouts);
             localStorage.setItem("allWorkouts", JSON.stringify(workouts));
             commit("WORKOUT_GETALL", workouts);
             resolve(resp);
@@ -70,9 +69,7 @@ export default {
     GET_WORKOUT({ commit }, id) {
       return new Promise((resolve, reject) => {
         let token = localStorage.getItem("token").token;
-
         commit("WORKOUT_REQUEST");
-
         axios({
           url: `http://localhost:5000/workouts/${id}`,
           method: "GET",
@@ -80,8 +77,6 @@ export default {
         })
           .then(resp => {
             let workoutItem = resp.data;
-            /* eslint-disable-next-line*/
-            console.log(workoutItem);
             commit("WORKOUT_GET_SUCCESS", workoutItem);
             localStorage.setItem("oneWorkout", JSON.stringify(workoutItem));
             resolve(resp);
@@ -94,6 +89,9 @@ export default {
     },
     CREATE_WORKOUT({ commit }, workout) {
       return new Promise((resolve, reject) => {
+        /* eslint-disable-next-line*/
+        console.log(workout);
+
         let token = JSON.parse(localStorage.getItem("token")).token;
         commit("WORKOUT_REQUEST");
         axios({
@@ -102,6 +100,7 @@ export default {
           data: {
             name: workout.name,
             points: workout.points,
+            rounds: workout.rounds,
             exercises: workout.exercises,
             description: workout.description,
             has_timer: workout.has_timer
@@ -114,27 +113,24 @@ export default {
         })
           .then(resp => {
             commit("WORKOUT_CREATE_SUCCESS", resp.data);
-            // localStorage.setItem("allWorkouts", JSON.stringify(resp.data));
-            resolve(resp);
+            localStorage.setItem("allWorkouts", JSON.stringify(resp.data));
+            resolve(workout);
           })
           .catch(err => {
-            // if (err.resp.status == 400) {
-            //   alert("Workout already exists.");
-            // }
             commit("WORKOUT_ERROR");
             reject(err);
           });
       });
     },
-    putWorkout({ commit }, workout) {
+    CHANGE_WORKOUT({ commit }, workout) {
       return new Promise((resolve, reject) => {
         let token = localStorage.getItem("token").token;
 
-        /* eslint-disable-next-line*/
-        console.log(state.workoutList);
+        if (workout)
+          /* eslint-disable-next-line*/
+          console.log(workout);
 
         commit("WORKOUT_REQUEST");
-
         axios({
           url: `http://localhost:5000/workouts/${workout.id}`,
           method: "PUT",
@@ -149,12 +145,12 @@ export default {
         })
           .then(resp => {
             let workoutItem = resp.data;
-            // /* eslint-disable-next-line*/
-            // console.log(workoutItem);
             commit("workout_patch_success", workoutItem);
             resolve(resp);
           })
           .catch(err => {
+            /* eslint-disable-next-line*/
+            console.log(err);
             commit("WORKOUT_ERROR");
             reject(err);
           });
@@ -171,17 +167,12 @@ export default {
           headers: { Authorization: "Bearer " + token }
         })
           .then(resp => {
-            /* eslint-disable-next-line*/
-            console.log(resp.data);
             commit("WORKOUT_REMOVE", workoutId);
             resolve(resp);
           })
           .catch(err => {
             /* eslint-disable-next-line*/
             console.log(err);
-            // if (err.response.status == 500) {
-            //   alert("You can only delete workouts you created!");
-            // }
             commit("WORKOUT_ERROR");
             reject(err);
           });

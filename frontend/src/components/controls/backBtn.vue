@@ -16,8 +16,8 @@ export default {
 #backLink {
   text-decoration: underline;
   cursor: pointer;
-  color: $alarm-title;
+  color: $softlight;
   font-size: 1rem;
-  font-weight: bold;
+  // font-weight: bold;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>PAST TRAININGS</p>
+    <p>TRAININGS</p>
     <div id="sq_past">
       <div v-if="USER_HISTORY">
         <h3>{{ USER_HISTORY }}</h3>

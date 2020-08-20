@@ -15,6 +15,20 @@
         <b-col class="col">
           <p>x {{ exis.quantity }}</p>
         </b-col>
+        <b-col v-if="exis.description">
+          <b-icon id="info" v-b-modal.modal-info icon="question-circle-fill">
+          </b-icon>
+        </b-col>
+        <b-modal
+          :title="exis.name + ' description'"
+          size="sm"
+          hide-header-close
+          centered
+          ok-only
+          id="modal-info"
+        >
+          <p>{{ exis.description }}</p></b-modal
+        >
       </li>
     </ul>
   </b-list-group>
@@ -42,8 +56,8 @@ export default {
   .row {
     text-align: left;
     display: grid;
-    margin: 0 1em;
-    grid-template-columns: 0.5fr 2fr 1fr;
+    margin: 0 0.2em;
+    grid-template-columns: 1fr 5fr 3fr 1fr;
   }
 }
 </style>

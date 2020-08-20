@@ -1,19 +1,14 @@
 <template>
   <div class="filter-row">
-    <b-button class="filter-btn" @click="nothing">last week</b-button>
-    <b-button class="filter-btn" @click="nothing">last month</b-button>
-    <b-button class="filter-btn" @click="nothing">all workouts</b-button>
+    <b-button class="filter-btn" disabled>last week</b-button>
+    <b-button class="filter-btn" disabled>last month</b-button>
+    <b-button class="filter-btn" disabled>all</b-button>
   </div>
 </template>
 
 <script>
 export default {
-  name: "FilterButtons",
-  methods: {
-    nothing() {
-      alert("Hey, I'm not doing anything yet :)");
-    }
-  }
+  name: "FilterButtons"
 };
 </script>
 

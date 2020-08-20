@@ -5,20 +5,51 @@
       class="tab"
       active-nav-item-class="font-weight-bold text-dark"
     >
-      <UserRanking />
-      <TeamOverview />
+      <div>
+        {{ activeTab }}
+        <b-tab title="Ranking" :active="activeA">
+          <TeamTable class="rankTab" />
+        </b-tab>
+        <b-tab title="My Stats" :active="activeB">
+          <UserOverview />
+        </b-tab>
+        <div v-if="LOGGED_USER.role == 'owner'">
+          <b-tab title="Team" class="teamTab">
+            <TeamOverview />
+          </b-tab>
+        </div>
+      </div>
     </b-tabs>
   </b-card>
 </template>
 
 <script>
-import UserRanking from "@/components/data-list/userRanking.vue";
-import TeamOverview from "@/components/data-overview/teamOverview.vue";
+import { mapGetters } from "vuex";
+
+import TeamTable from "@/components/data-detail/teamTable.vue";
+import TeamOverview from "@/components/data-overview/teamOverview";
+import UserOverview from "@/components/data-overview/userOverview";
 export default {
   name: "Statistic",
   components: {
-    UserRanking,
-    TeamOverview
+    TeamOverview,
+    UserOverview,
+    TeamTable
+  },
+  data() {
+    return {
+      activeA: false,
+      activeB: false
+    };
+  },
+  props: {
+    activeTab: {
+      type: String
+      // required: true
+    }
+  },
+  computed: {
+    ...mapGetters(["LOGGED_USER"])
   }
 };
 </script>
@@ -32,7 +63,14 @@ export default {
   padding-top: 1em;
   margin-top: 4em;
   .tab {
-    padding-top: 1em;
+    min-width: 100%;
+    margin-top: 1em;
+    border-radius: 20px;
+  }
+}
+@media only screen and (min-width: 700px) {
+  .overviewTab {
+    @include centralPosition;
   }
 }
 </style>

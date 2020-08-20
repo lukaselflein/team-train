@@ -8,7 +8,7 @@
       <unNavigation />
       <router-view />
     </div>
-
+    <!-- </b-navbar> -->
     <!-- <AppFooter /> -->
   </div>
 </template>
@@ -37,17 +37,25 @@ export default {
 <style lang="scss">
 @import "./mixins.scss";
 // default stylings for elements, fonts and background
+#nav-coll {
+  border-bottom: none;
+}
+
 * {
   margin: 0;
   padding: 0;
   font-family: "Mukata", sans-serif;
+
   html,
   body {
     margin: 0;
     border: none;
     padding: 0;
     overflow-x: hidden;
-    background-image: url("./assets/background_studio.jpg");
+    // background-image: linear-gradient(-45deg, #9796f0, #fbc7d4);
+    background-image: linear-gradient(145deg, #12c2e9, #c471ed, #f64f59);
+
+    // background-image: url("./assets/background_studio.jpg");
     background-attachment: fixed;
     background-position: center center;
     background-size: cover;
@@ -65,32 +73,31 @@ export default {
         font-weight: bolder;
       }
       h1 {
-        font-size: 2rem;
+        font-size: 1.5rem;
         color: $dark;
       }
       h2 {
-        font-size: 1.6rem;
+        font-size: 1.2rem;
         color: $dark-title;
       }
       h3 {
-        font-size: 1.4rem;
-        color: $light-title;
+        font-size: 0.94rem;
+        color: white;
       }
       h4 {
-        font-size: 1.8rem;
-        color: $dark-title;
+        font-size: 1rem;
+        color: $dark;
       }
       h5 {
-        font-size: 1.2rem;
-        color: $light-title;
+        font-size: 0.94rem;
       }
       h6 {
-        font-size: 1rem;
-        color: $greydark;
+        font-size: 0.81rem;
+        color: $dark;
       }
       p {
         color: $dark;
-        font-size: 1rem;
+        font-size: 0.8rem;
       }
       input {
         border-radius: 25px;
@@ -106,9 +113,12 @@ export default {
         // background-color: none;
         // opacity: 1;
       }
-      background-color: rgba($softlight, 0.5);
+      // background-color: rgba($softlight, 0.5);
       background: fixed center center cover;
       min-height: 100vh;
+    }
+    li {
+      list-style: none;
     }
   }
 }

@@ -25,6 +25,12 @@ export default {
       state.status = "success";
       state.user_score = data;
     },
+    USER_CLAIM_SUCCESS: (state, data) => {
+      state.status = "success";
+      // state.user_score.push(data);
+      /* eslint-disable-next-line*/
+      console.log(data);
+    },
     USER_HISTORY_SUCCESS(state, data) {
       state.status = "success";
       state.user_history = data;
@@ -60,20 +66,22 @@ export default {
     },
     CLAIM_SCORE({ commit }, workoutId) {
       let token = JSON.parse(localStorage.getItem("token")).token;
-      /* eslint-disable-next-line*/
-      console.log(token);
       return new Promise((resolve, reject) => {
         commit("SCORE_REQUEST");
         axios({
           url: `http://localhost:5000/claim/${workoutId}`,
           method: "POST",
           headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
             Authorization: "Bearer " + token
           }
         })
           .then(resp => {
-            localStorage.setItem("score", JSON.stringify(resp.data));
-            commit("USER_SCORE_SUCCESS", resp.data);
+            // /* eslint-disable-next-line*/
+            console.log(resp);
+            // localStorage.setItem("score", JSON.stringify(resp.data));
+            commit("USER_CLAIM_SUCCESS", resp.data);
             resolve(resp);
           })
           .catch(err => {

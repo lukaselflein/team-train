@@ -1,9 +1,9 @@
 <template>
-  <b-tab title="Team Data" class="teamTab">
+  <div class="teamTab">
     <b-col>
-      <p>MEMBERS</p>
+      <p>CURRENT MEMBERS</p>
       <div id="sq_member">
-        <h3>12</h3>
+        <h4>12</h4>
       </div>
     </b-col>
     <b-card class="teamCard" header-tag="header">
@@ -25,7 +25,7 @@
       <!-- member List -> delete member -->
       <MemberList />
     </b-card>
-  </b-tab>
+  </div>
 </template>
 
 <script>

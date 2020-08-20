@@ -91,8 +91,6 @@ export default {
     },
     WHOAMI({ commit }) {
       let token = JSON.parse(localStorage.getItem("token")).token;
-      /* eslint-disable-next-line*/
-      console.log(token);
       return new Promise((resolve, reject) => {
         commit("AUTH_REQUEST");
         axios({

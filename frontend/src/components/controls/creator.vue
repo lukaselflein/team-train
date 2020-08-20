@@ -7,14 +7,24 @@
         >
       </b-col>
       <b-col>
-        <b-btn variant="danger" @click="deleteWorkout(creatorTools[1])"
-          >delete Workout</b-btn
-        >
+        <b-btn v-b-modal.deleteWorkout variant="danger">delete Workout</b-btn>
       </b-col>
     </b-row>
-
     <!-- modal change workout -->
     <ModalChangeWorkout />
+    <!-- modal delete workout -->
+    <b-modal id="deleteWorkout" title="Delete Workout" hide-header-close
+      ><p>Are you sure, you want to delete the workout?</p>
+      <template v-slot:modal-footer>
+        <b-btn sm variant="info" @click="$bvModal.hide('deleteWorkout')"
+          >cancel</b-btn
+        >
+
+        <b-button variant="danger" @click="deleteWorkout(creatorTools[1])"
+          >Yes</b-button
+        >
+      </template></b-modal
+    >
   </div>
 </template>
 

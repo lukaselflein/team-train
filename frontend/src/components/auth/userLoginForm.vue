@@ -62,9 +62,7 @@ export default {
           this.$router.push("/");
         })
         .catch(err => {
-          if (err.status == 404) {
-            alert("This User doesn't exist.");
-          }
+          alert("Password or Username wrong.");
           // eslint-disable-next-line no-console
           console.log(err);
         });

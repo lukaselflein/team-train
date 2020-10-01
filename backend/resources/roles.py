@@ -39,16 +39,57 @@ class WhoisApi(Resource):
 class ManagerRoleApi(Resource):
   @jwt_required
   #@manager_role_required
-  def put(self):
+  def post(self):
+    # First, check if user is manager for the team
+    user_id = get_jwt_identity()
+    user = User.objects.get(id=user_id)
+    print(user.team)
+    if 'manager' in [role.name for role in user.roles]:
+        print('user is manager')
+    else:
+        raise UnauthorizedError
+
     try:
         body = request.get_json()
         # TODO: check if requested user-id is in manager's team
         username = body['username']
         user = User.objects.get(username=username)
-        manager_role = Role(name='manager')
+        try:
+            manager_role = Role.objects.get(name='manager')
+        except:
+            manager_role = Role(name='manager')
         manager_role.save()
         user.update(roles=[manager_role])
-        return f'Roles of {username} changed to {user.roles}', 200
+        return f'Role added.', 200
+    except InvalidQueryError:
+        raise SchemaValidationError
+    except DoesNotExist:
+        raise UpdatingWorkoutError
+    except Exception:
+        raise InternalServerError
+
+
+  @jwt_required
+  #@manager_role_required
+  def delete(self):
+    # First, check if user is manager for the team
+    user_id = get_jwt_identity()
+    user = User.objects.get(id=user_id)
+    print(user.team)
+    if 'manager' in [role.name for role in user.roles]:
+        print('user is manager')
+    else:
+        raise UnauthorizedError
+
+    try:
+        body = request.get_json()
+        # TODO: check if requested user-id is in manager's team
+        username = body['username']
+        user = User.objects.get(username=username)
+        manager_role = Role.objects.get(name='manager')
+        print(manager_role)
+        user.update(roles=[])
+        return f'Role deleted.', 200
     except InvalidQueryError:
         raise SchemaValidationError
     except DoesNotExist:

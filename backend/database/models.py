@@ -1,5 +1,8 @@
 from .db import db
 from flask_bcrypt import generate_password_hash, check_password_hash
+from flask_security import Security, MongoEngineUserDatastore, \
+    UserMixin, RoleMixin, login_required
+from flask_principal import Permission, RoleNeed
 import datetime
 import json
 
@@ -34,7 +37,6 @@ class ScoreLog(db.Document):
         return log
 
 
-
 class Workout(db.Document):
     '''A workout contains exercises and metadata.
     >>> e1 = Exercise(name='Pushup', quantity = 100)
@@ -65,13 +67,18 @@ class Workout(db.Document):
         return workout_dict
 
 
+class Role(db.Document, RoleMixin):
+    name = db.StringField(max_length=80, unique=True)
+    description = db.StringField(max_length=255)
+
 
 class User(db.Document):
     email = db.EmailField(required=True, unique=True)
     username = db.StringField(required=True, unique=True)
     password = db.StringField(required=True, min_length=6)
     workouts = db.ListField(db.ReferenceField('Workout', reverse_delete_rule=db.PULL))
-    roles = db.ListField()
+    roles = db.ListField(db.ReferenceField(Role), default=[])
+#    roles = db.ListField(default=[])
     team = db.StringField()
     current_score = db.IntField(default=0)
     score_history = db.ListField(db.ReferenceField('ScoreLog', reverse_delete_rule=db.PULL))

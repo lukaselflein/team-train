@@ -38,7 +38,8 @@ class WorkoutsApi(Resource):
         raise WorkoutAlreadyExistsError
     except Exception as e:
         raise InternalServerError
- 
+
+
 class WorkoutApi(Resource):
   @jwt_required
   def put(self, id):
@@ -47,7 +48,7 @@ class WorkoutApi(Resource):
         workout = Workout.objects.get(id=id, added_by=user_id)
         body = request.get_json()
         Workout.objects.get(id=id).update(**body)
-        return '', 200
+        return 'Workout changed successfully.', 200
     except InvalidQueryError:
         raise SchemaValidationError
     except DoesNotExist:

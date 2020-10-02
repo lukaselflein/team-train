@@ -2,7 +2,6 @@ from .db import db
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_security import Security, MongoEngineUserDatastore, \
     UserMixin, RoleMixin, login_required
-from flask_principal import Permission, RoleNeed
 import datetime
 import json
 

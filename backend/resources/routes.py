@@ -1,7 +1,7 @@
 from .workouts import WorkoutsApi, WorkoutApi
 from .auth import SignupApi, LoginApi
 from .scoring import CurrentScoreApi, ScoreHistoryApi, ClaimingApi
-from .roles import WhoamiApi, ManagerRoleApi, WhoisApi
+from .roles import WhoamiApi, ManagerRoleApi, WhoisApi, TeamApi
 
 def initialize_routes(api):
     api.add_resource(WorkoutsApi, '/workouts')
@@ -14,4 +14,4 @@ def initialize_routes(api):
     api.add_resource(WhoamiApi, '/whoami')
     api.add_resource(ManagerRoleApi, '/manager')
     api.add_resource(WhoisApi, '/whois')
-    #api.add_resource(UserApi, '/user/<id>')
+    api.add_resource(TeamApi, '/team')

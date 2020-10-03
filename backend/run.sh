@@ -1,5 +1,6 @@
 #export FLASK_ENV=development
 export PYTHONDONTWRITEBYTECODE=1 
+export FLASK_SKIP_DOTENV=1
 
 echo 'Entering in test mode...'
 export ENV_FILE_LOCATION=./.testenv

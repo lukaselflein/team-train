@@ -7,6 +7,9 @@ class SchemaValidationError(Exception):
 class WorkoutAlreadyExistsError(Exception):
     pass
 
+class RoleAlreadyAssignedError(Exception):
+    pass
+
 class UpdatingWorkoutError(Exception):
     pass
 
@@ -54,6 +57,10 @@ errors = {
      "UnauthorizedError": {
          "message": "Invalid username or password",
          "status": 401
+     },
+     "RoleAlreadyAssignedError": {
+         "message": "Role already assigned to user",
+         "status": 400
      }
 }
 

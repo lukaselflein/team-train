@@ -71,14 +71,18 @@ class Role(db.Document, RoleMixin):
     description = db.StringField(max_length=255)
 
 
+class Team(db.Document, RoleMixin):
+    name = db.StringField(max_length=80, unique=True)
+    description = db.StringField(max_length=255)
+
+
 class User(db.Document):
     email = db.EmailField(required=True, unique=True)
     username = db.StringField(required=True, unique=True)
     password = db.StringField(required=True, min_length=6)
     workouts = db.ListField(db.ReferenceField('Workout', reverse_delete_rule=db.PULL))
-    roles = db.ListField(db.ReferenceField(Role), default=[])
-#    roles = db.ListField(default=[])
-    team = db.StringField()
+    roles = db.ListField(db.ReferenceField('Role'), default=[])
+    team = db.ReferenceField('Team', default=None)
     current_score = db.IntField(default=0)
     score_history = db.ListField(db.ReferenceField('ScoreLog', reverse_delete_rule=db.PULL))
 
@@ -89,12 +93,30 @@ class User(db.Document):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-    def set_team(self, team):
-        self.team = team
+    def add_manager_role(self):
+        try:
+            manager_role = Role.objects.get(name='manager')
+        except:
+            manager_role = Role(name='manager')
+            manager_role.save()
 
-    def add_role(self, role):
-        if role not in self.roles:
-            self.roles += [role]
+        if manager_role not in self.roles:
+            self.roles.append(manager_role)
+            self.save()
+        else:
+            raise RuntimeError('Role already assigned')
+
+    def rm_manager_role(self):
+        try:
+            manager_role = Role.objects.get(name='manager')
+        except:
+            manager_role = Role(name='manager')
+            manager_role.save()
+
+        if manager_role in self.roles:
+            self.update(pull__roles=manager_role)
+        else:
+            raise RuntimeError('Cannot remove, role not assigned')
 
 
 User.register_delete_rule(Workout, 'added_by', db.CASCADE)

@@ -82,6 +82,7 @@ def manager_role_required(function):
 
 
 class TeamApi(Resource):
+  @default_exception_handler
   @jwt_required
   def post(self):
     user_id = get_jwt_identity()
@@ -94,6 +95,7 @@ class TeamApi(Resource):
 
 
 class WhoamiApi(Resource):
+  @default_exception_handler
   @jwt_required
   def get(self):
     user_id = get_jwt_identity()
@@ -125,18 +127,12 @@ class ManagerRoleApi(Resource):
   #@manager_role_required
   def post(self):
     active_user = User.objects.get(id=get_jwt_identity())
-    try:
-        body = request.get_json()
-        target_username = body['username']
-        target_user = User.objects.get(username=target_username)
-        if check_same_team(active_user, target_user):
-            target_user.add_manager_role()
-        return f'Manager role added to {target_username}.', 200
-
-    except InvalidQueryError:
-        raise SchemaValidationError
-    except Exception:
-        raise InternalServerError
+    body = request.get_json()
+    target_username = body['username']
+    target_user = User.objects.get(username=target_username)
+    if check_same_team(active_user, target_user):
+        target_user.add_manager_role()
+    return f'Manager role added to {target_username}.', 200
 
 
   @default_exception_handler
@@ -144,18 +140,12 @@ class ManagerRoleApi(Resource):
   @manager_role_required
   def delete(self):
     active_user = User.objects.get(id=get_jwt_identity())
-    try:
-        body = request.get_json()
-        target_username = body['username']
-        target_user = User.objects.get(username=target_username)
-        if check_same_team(active_user, target_user):
-            target_user.rm_manager_role()
-            return f'Manager role removed from {target_username}.', 200
-
-    except InvalidQueryError:
-        raise SchemaValidationError
-    except Exception:
-        raise InternalServerError
+    body = request.get_json()
+    target_username = body['username']
+    target_user = User.objects.get(username=target_username)
+    if check_same_team(active_user, target_user):
+        target_user.rm_manager_role()
+        return f'Manager role removed from {target_username}.', 200
 
 
 class TeamApi(Resource):
@@ -167,26 +157,20 @@ class TeamApi(Resource):
     if active_user.team is not None:
         return f'User must leave team before creating a new team', 412
 
-    try:
-        body = request.get_json()
-        requested_teamname = body['name']
+    body = request.get_json()
+    requested_teamname = body['name']
 
-        # Check for name collision
-        if Team.objects.get(name=requested_teamname): 
-            return f'Teamname {requested_teamname} already exists', 412
+    # Check for name collision
+    if Team.objects.get(name=requested_teamname): 
+        return f'Teamname {requested_teamname} already exists', 412
 
-        team = Team(**body)
-        team.save()
+    team = Team(**body)
+    team.save()
 
-        active_user.team = team
-        active_user.save()
+    active_user.team = team
+    active_user.save()
 
-        return f'Requested team {requested_teamname} created.', 200
-
-    except InvalidQueryError:
-        raise SchemaValidationError
-    except Exception:
-        raise InternalServerError
+    return f'Requested team {requested_teamname} created.', 200
 
 
   @default_exception_handler
@@ -198,25 +182,17 @@ class TeamApi(Resource):
         active_user.team = None
         active_user.save()
 
-    try:
-        body = request.get_json()
-        requested_teamname = body['name']
+    body = request.get_json()
+    requested_teamname = body['name']
 
-        # Check for name collision
-        if not Team.objects.get(name=requested_teamname): 
-            return f'Teamname {requested_teamname} already exists', 412
+    # Check for name collision
+    if not Team.objects.get(name=requested_teamname): 
+        return f'Teamname {requested_teamname} already exists', 412
 
-        team = Team(**body)
-        team.save()
+    team = Team(**body)
+    team.save()
 
-        active_user.team = team
-        active_user.save()
+    active_user.team = team
+    active_user.save()
 
-        return f'Requested team {requested_teamname} created.', 200
-
-    except InvalidQueryError:
-        raise SchemaValidationError
-    except Exception:
-        raise InternalServerError
-
-
+    return f'Requested team {requested_teamname} created.', 200
